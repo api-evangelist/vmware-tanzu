@@ -1,0 +1,28 @@
+aid: vmware-tanzu
+name: VMware Tanzu
+description: >-
+  VMware Tanzu is a portfolio of products for modernizing applications and infrastructure with a common approach to building, running, and managing Kubernetes.
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - Containers
+url: >-
+  https://raw.githubusercontent.com/api-evangelist/vmware-tanzu/refs/heads/main/apis.yml
+created: '2026-03-26'
+modified: '2026-03-26'
+specificationVersion: '0.19'
+apis:
+  - aid: vmware-tanzu:vmware-tanzu
+    name: VMware Tanzu
+    description: >-
+      VMware Tanzu is a portfolio of products for modernizing applications and infrastructure with a common approach to building, running, and managing Kubernetes.
+    humanURL: https://github.com/api-evangelist/vmware-tanzu
+    tags:
+      - Containers
+    properties: []
+common:
+  - type: Website
+    url: https://github.com/api-evangelist/vmware-tanzu
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
