@@ -1,11 +1,20 @@
 aid: vmware-tanzu
 name: VMware Tanzu
 description: >-
-  VMware Tanzu is a portfolio of products for modernizing applications and infrastructure with a common approach to building, running, and managing Kubernetes.
+  VMware Tanzu is a portfolio of products and services for modernizing
+  applications and infrastructure to deliver better software to production. It
+  provides a unified Kubernetes platform for building, running, and managing
+  modern applications across multi-cloud environments with consistent
+  operations and security.
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
   - Containers
+  - Kubernetes
+  - Cloud Native
+  - VMware
+  - Enterprise
+  - Multi-Cloud
 url: >-
   https://raw.githubusercontent.com/api-evangelist/vmware-tanzu/refs/heads/main/apis.yml
 created: '2026-03-26'
@@ -15,14 +24,37 @@ apis:
   - aid: vmware-tanzu:vmware-tanzu
     name: VMware Tanzu
     description: >-
-      VMware Tanzu is a portfolio of products for modernizing applications and infrastructure with a common approach to building, running, and managing Kubernetes.
-    humanURL: https://github.com/api-evangelist/vmware-tanzu
+      VMware Tanzu is a portfolio of products for modernizing applications and
+      infrastructure with a common approach to building, running, and managing
+      Kubernetes across multi-cloud environments. It helps organizations
+      standardize and streamline Kubernetes operations while providing developer
+      self-service access and enterprise-grade security.
+    humanURL: https://tanzu.vmware.com/
     tags:
       - Containers
-    properties: []
+      - Kubernetes
+      - Cloud Native
+      - VMware
+      - Enterprise
+      - Multi-Cloud
+    properties:
+      - type: Documentation
+        url: https://docs.vmware.com/en/VMware-Tanzu/index.html
+      - type: Getting Started
+        url: https://tanzu.vmware.com/getting-started
 common:
   - type: Website
-    url: https://github.com/api-evangelist/vmware-tanzu
+    url: https://tanzu.vmware.com/
+  - type: Documentation
+    url: https://docs.vmware.com/en/VMware-Tanzu/index.html
+  - type: GitHub Organization
+    url: https://github.com/vmware-tanzu
+  - type: Blog
+    url: https://tanzu.vmware.com/content/blog
+  - type: Pricing
+    url: https://tanzu.vmware.com/pricing
+  - type: Sign Up
+    url: https://tanzu.vmware.com/try
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
