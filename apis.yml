@@ -9,12 +9,12 @@ description: >-
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
-  - Containers
-  - Kubernetes
   - Cloud Native
-  - VMware
+  - Containers
   - Enterprise
+  - Kubernetes
   - Multi-Cloud
+  - VMware
 url: >-
   https://raw.githubusercontent.com/api-evangelist/vmware-tanzu/refs/heads/main/apis.yml
 created: '2026-03-26'
@@ -31,12 +31,12 @@ apis:
       self-service access and enterprise-grade security.
     humanURL: https://tanzu.vmware.com/
     tags:
-      - Containers
-      - Kubernetes
       - Cloud Native
-      - VMware
+      - Containers
       - Enterprise
+      - Kubernetes
       - Multi-Cloud
+      - VMware
     properties:
       - type: Documentation
         url: https://docs.vmware.com/en/VMware-Tanzu/index.html
