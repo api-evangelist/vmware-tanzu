@@ -1,0 +1,48 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "schema": "https://schema.org/",
+    "tanzu": "https://tanzu.vmware.com/vocabulary#",
+    "k8s": "https://kubernetes.io/vocabulary#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+    "TanzuCluster": "tanzu:Cluster",
+    "GlobalNamespace": "tanzu:GlobalNamespace",
+    "ResourceGroup": "tanzu:ResourceGroup",
+    "TanzuKubernetesCluster": "tanzu:TanzuKubernetesCluster",
+    "ClusterConfig": "tanzu:ClusterConfig",
+    "NodePool": "tanzu:NodePool",
+
+    "name": {"@id": "schema:name"},
+    "description": {"@id": "schema:description"},
+    "display_name": {"@id": "tanzu:displayName", "@type": "xsd:string"},
+    "state": {"@id": "tanzu:state", "@type": "xsd:string"},
+    "cloud_provider": {"@id": "tanzu:cloudProvider", "@type": "xsd:string"},
+    "region": {"@id": "tanzu:region", "@type": "xsd:string"},
+    "k8s_version": {"@id": "tanzu:kubernetesVersion", "@type": "xsd:string"},
+    "tsm_version": {"@id": "tanzu:tsmVersion", "@type": "xsd:string"},
+    "namespace_count": {"@id": "tanzu:namespaceCount", "@type": "xsd:integer"},
+
+    "domain_name": {"@id": "tanzu:domainName", "@type": "xsd:string"},
+    "mtls_enforced": {"@id": "tanzu:mtlsEnforced", "@type": "xsd:boolean"},
+    "ca_type": {"@id": "tanzu:caType", "@type": "xsd:string"},
+    "status": {"@id": "tanzu:status", "@type": "xsd:string"},
+    "cluster_configs": {"@id": "tanzu:clusterConfigs", "@container": "@list"},
+    "cluster_name": {"@id": "tanzu:clusterName", "@type": "xsd:string"},
+    "namespaces": {"@id": "k8s:namespaces", "@container": "@list"},
+
+    "resource_type": {"@id": "tanzu:resourceType", "@type": "xsd:string"},
+    "membership_criteria": {"@id": "tanzu:membershipCriteria", "@container": "@list"},
+
+    "apiVersion": {"@id": "k8s:apiVersion", "@type": "xsd:string"},
+    "kind": {"@id": "k8s:kind", "@type": "xsd:string"},
+    "spec": {"@id": "k8s:spec"},
+    "metadata": {"@id": "k8s:metadata"},
+    "phase": {"@id": "k8s:phase", "@type": "xsd:string"},
+    "conditions": {"@id": "k8s:conditions", "@container": "@list"},
+    "apiEndpoint": {"@id": "tanzu:apiEndpoint", "@type": "@id"},
+
+    "SoftwareApplication": "schema:SoftwareApplication",
+    "Organization": "schema:Organization"
+  }
+}

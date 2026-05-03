@@ -1,0 +1,354 @@
+openapi: 3.1.0
+info:
+  title: VMware Tanzu Kubernetes Grid API
+  description: >-
+    The Tanzu Kubernetes Grid (TKG) API is a Kubernetes-native declarative
+    API using the TanzuKubernetesCluster CRD (v1alpha1/v1alpha2) to provision
+    and manage Tanzu Kubernetes clusters on vSphere Supervisor. Clusters are
+    created, updated, and deleted using standard kubectl against the Supervisor
+    cluster's Kubernetes API server.
+  version: v1alpha2
+  contact:
+    name: VMware Tanzu Support
+    url: https://tanzu.vmware.com/support
+  license:
+    name: Proprietary
+    url: https://tanzu.vmware.com/
+externalDocs:
+  description: TKG API Documentation
+  url: https://docs.vmware.com/en/VMware-vSphere/7.0/vmware-vsphere-with-tanzu/GUID-31BF8166-5FC8-4D43-933D-5797F3BE4A36.html
+servers:
+  - url: https://{supervisor-ip}:6443
+    description: vSphere Supervisor Kubernetes API server
+    variables:
+      supervisor-ip:
+        default: 192.168.1.100
+        description: vSphere Supervisor cluster API server IP
+tags:
+  - name: Tanzu Kubernetes Clusters
+    description: Create and manage TanzuKubernetesCluster resources
+  - name: Namespaces
+    description: vSphere Namespace operations for TKG
+paths:
+  /apis/run.tanzu.vmware.com/v1alpha2/namespaces/{namespace}/tanzukubernetesclusters:
+    get:
+      operationId: listTanzuKubernetesClusters
+      summary: List Tanzu Kubernetes Clusters
+      description: List all TanzuKubernetesCluster resources in a vSphere namespace.
+      tags:
+        - Tanzu Kubernetes Clusters
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: namespace
+          in: path
+          required: true
+          schema:
+            type: string
+          description: vSphere namespace containing the clusters
+      responses:
+        '200':
+          description: List of TanzuKubernetesCluster resources
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TanzuKubernetesClusterList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createTanzuKubernetesCluster
+      summary: Create Tanzu Kubernetes Cluster
+      description: >-
+        Create a new TanzuKubernetesCluster resource in the specified
+        vSphere namespace. The Supervisor reconciles this resource and
+        provisions the Kubernetes cluster.
+      tags:
+        - Tanzu Kubernetes Clusters
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: namespace
+          in: path
+          required: true
+          schema:
+            type: string
+          description: vSphere namespace to create the cluster in
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TanzuKubernetesCluster'
+      responses:
+        '201':
+          description: Cluster resource created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TanzuKubernetesCluster'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /apis/run.tanzu.vmware.com/v1alpha2/namespaces/{namespace}/tanzukubernetesclusters/{cluster_name}:
+    get:
+      operationId: getTanzuKubernetesCluster
+      summary: Get Tanzu Kubernetes Cluster
+      description: Retrieve a specific TanzuKubernetesCluster resource and its status.
+      tags:
+        - Tanzu Kubernetes Clusters
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: namespace
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: cluster_name
+          in: path
+          required: true
+          schema:
+            type: string
+          description: TanzuKubernetesCluster resource name
+      responses:
+        '200':
+          description: TanzuKubernetesCluster resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TanzuKubernetesCluster'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteTanzuKubernetesCluster
+      summary: Delete Tanzu Kubernetes Cluster
+      description: Delete a TanzuKubernetesCluster resource, triggering cluster deletion.
+      tags:
+        - Tanzu Kubernetes Clusters
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: namespace
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: cluster_name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Cluster deletion initiated
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Kubernetes Bearer token for vSphere Supervisor API authentication.
+  schemas:
+    TanzuKubernetesClusterList:
+      type: object
+      description: List of TanzuKubernetesCluster resources.
+      properties:
+        apiVersion:
+          type: string
+          default: "run.tanzu.vmware.com/v1alpha2"
+        kind:
+          type: string
+          default: "TanzuKubernetesClusterList"
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/TanzuKubernetesCluster'
+    TanzuKubernetesCluster:
+      type: object
+      description: A TanzuKubernetesCluster CRD resource representing a workload Kubernetes cluster.
+      required:
+        - apiVersion
+        - kind
+        - metadata
+        - spec
+      properties:
+        apiVersion:
+          type: string
+          description: API version of the resource.
+          example: "run.tanzu.vmware.com/v1alpha2"
+        kind:
+          type: string
+          description: Resource kind.
+          default: "TanzuKubernetesCluster"
+        metadata:
+          $ref: '#/components/schemas/ObjectMeta'
+        spec:
+          $ref: '#/components/schemas/TanzuKubernetesClusterSpec'
+        status:
+          $ref: '#/components/schemas/TanzuKubernetesClusterStatus'
+    ObjectMeta:
+      type: object
+      description: Kubernetes object metadata.
+      properties:
+        name:
+          type: string
+          description: Cluster name.
+          example: "my-workload-cluster"
+        namespace:
+          type: string
+          description: vSphere namespace.
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+        annotations:
+          type: object
+          additionalProperties:
+            type: string
+    TanzuKubernetesClusterSpec:
+      type: object
+      description: Desired state specification for the TanzuKubernetesCluster.
+      required:
+        - topology
+      properties:
+        topology:
+          $ref: '#/components/schemas/Topology'
+        settings:
+          $ref: '#/components/schemas/ClusterSettings'
+    Topology:
+      type: object
+      description: Cluster topology: control plane and worker nodes.
+      required:
+        - controlPlane
+      properties:
+        controlPlane:
+          $ref: '#/components/schemas/NodeGroup'
+        nodePools:
+          type: array
+          description: Worker node pools.
+          items:
+            $ref: '#/components/schemas/NodePool'
+    NodeGroup:
+      type: object
+      description: A group of identical Kubernetes nodes.
+      required:
+        - count
+        - vmClass
+        - storageClass
+        - tkr
+      properties:
+        count:
+          type: integer
+          description: Number of nodes in this group.
+          minimum: 1
+        vmClass:
+          type: string
+          description: vSphere VM class for node sizing.
+          example: "best-effort-small"
+        storageClass:
+          type: string
+          description: StorageClass for node persistent storage.
+          example: "wcpglobal-storage-profile"
+        tkr:
+          type: object
+          description: Tanzu Kubernetes Release (TKR) reference.
+          properties:
+            reference:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "v1.29.0---vmware.1-tkg.1"
+    NodePool:
+      type: object
+      description: A worker node pool definition.
+      required:
+        - name
+        - count
+        - vmClass
+        - storageClass
+        - tkr
+      properties:
+        name:
+          type: string
+          description: Node pool name.
+        count:
+          type: integer
+        vmClass:
+          type: string
+        storageClass:
+          type: string
+        tkr:
+          type: object
+    ClusterSettings:
+      type: object
+      description: Optional cluster configuration settings.
+      properties:
+        network:
+          type: object
+          description: Network configuration for the cluster.
+          properties:
+            serviceCidr:
+              type: string
+              description: CIDR for Kubernetes services.
+              example: "10.96.0.0/12"
+            podCidr:
+              type: string
+              description: CIDR for pod networking.
+              example: "192.168.0.0/16"
+            cni:
+              type: object
+              description: CNI plugin configuration.
+    TanzuKubernetesClusterStatus:
+      type: object
+      description: Observed state of the TanzuKubernetesCluster.
+      properties:
+        phase:
+          type: string
+          description: Cluster lifecycle phase.
+          enum:
+            - creating
+            - running
+            - updating
+            - deleting
+            - error
+        conditions:
+          type: array
+          description: Kubernetes conditions describing cluster health.
+          items:
+            type: object
+        apiEndpoint:
+          type: string
+          description: API server endpoint for the workload cluster.
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid Bearer token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Invalid resource specification
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'

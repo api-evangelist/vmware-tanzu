@@ -1,0 +1,79 @@
+extends:
+  - spectral:oas
+
+rules:
+  tanzu-operation-ids-camel-case:
+    description: Operation IDs must use camelCase to match Tanzu SDK conventions.
+    message: "{{property}} must be camelCase"
+    severity: warn
+    given: "$.paths[*][*].operationId"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[a-z][a-zA-Z0-9]*$"
+
+  tanzu-require-auth:
+    description: All Tanzu API operations must define security.
+    message: "Operation {{path}} must define security"
+    severity: error
+    given: "$.paths[*][*]"
+    then:
+      field: security
+      function: truthy
+
+  tanzu-require-summaries:
+    description: All operations must have a summary.
+    message: "Operation {{path}} must have a summary"
+    severity: error
+    given: "$.paths[*][*]"
+    then:
+      field: summary
+      function: truthy
+
+  tanzu-require-descriptions:
+    description: All operations and schemas must have descriptions.
+    message: "{{path}} must have a description"
+    severity: warn
+    given:
+      - "$.paths[*][*]"
+      - "$.components.schemas[*]"
+    then:
+      field: description
+      function: truthy
+
+  tanzu-require-401-response:
+    description: All authenticated operations must define a 401 Unauthorized response.
+    message: "Operation {{path}} must define a 401 response"
+    severity: warn
+    given: "$.paths[*][get,post,put,patch,delete]"
+    then:
+      field: responses.401
+      function: truthy
+
+  tanzu-path-params-documented:
+    description: All path parameters must have descriptions.
+    message: "Path parameter {{path}} must have a description"
+    severity: warn
+    given: "$.paths[*][*].parameters[?(@.in == 'path')]"
+    then:
+      field: description
+      function: truthy
+
+  tanzu-versioned-paths:
+    description: All Tanzu API paths must include an API version segment.
+    message: "Path {{path}} should include a version segment (v1alpha1, v1alpha2, etc.)"
+    severity: warn
+    given: "$.paths"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^/(v[0-9]|apis|csp)/"
+
+  tanzu-schemas-have-types:
+    description: All schema properties must have explicit types.
+    message: "Schema property {{path}} must have a type"
+    severity: warn
+    given: "$.components.schemas[*].properties[*]"
+    then:
+      field: type
+      function: truthy

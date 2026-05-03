@@ -1,0 +1,49 @@
+{
+  "title": "List TSM Clusters",
+  "description": "Retrieve all Kubernetes clusters onboarded to Tanzu Service Mesh.",
+  "operation": "listClusters",
+  "request": {
+    "method": "GET",
+    "url": "https://prod-2.nsxservicemesh.vmware.com/v1alpha1/clusters",
+    "headers": {
+      "csp-auth-token": "your-access-token-here"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "clusters": [
+        {
+          "name": "production-west",
+          "display_name": "Production West (AWS us-west-2)",
+          "state": "READY",
+          "cloud_provider": "AWS",
+          "region": "us-west-2",
+          "k8s_version": "1.29.0",
+          "tsm_version": "1.9.2",
+          "namespace_count": 12
+        },
+        {
+          "name": "staging-east",
+          "display_name": "Staging East (Azure eastus)",
+          "state": "READY",
+          "cloud_provider": "Azure",
+          "region": "eastus",
+          "k8s_version": "1.28.5",
+          "tsm_version": "1.9.2",
+          "namespace_count": 5
+        },
+        {
+          "name": "dev-vsphere",
+          "display_name": "Development (vSphere)",
+          "state": "INSTALLING",
+          "cloud_provider": "vSphere",
+          "region": "datacenter-01",
+          "k8s_version": "1.29.0",
+          "tsm_version": null,
+          "namespace_count": 0
+        }
+      ]
+    }
+  }
+}

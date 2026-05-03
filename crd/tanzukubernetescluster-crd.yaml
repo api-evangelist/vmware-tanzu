@@ -1,0 +1,147 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: tanzukubernetesclusters.run.tanzu.vmware.com
+  annotations:
+    api-approved.kubernetes.io: "https://github.com/vmware-tanzu"
+spec:
+  group: run.tanzu.vmware.com
+  names:
+    kind: TanzuKubernetesCluster
+    listKind: TanzuKubernetesClusterList
+    plural: tanzukubernetesclusters
+    shortNames:
+      - tkc
+    singular: tanzukubernetescluster
+  scope: Namespaced
+  versions:
+    - name: v1alpha2
+      served: true
+      storage: true
+      schema:
+        openAPIV3Schema:
+          description: TanzuKubernetesCluster is the schema for a Tanzu Kubernetes workload cluster.
+          type: object
+          properties:
+            apiVersion:
+              type: string
+            kind:
+              type: string
+            metadata:
+              type: object
+            spec:
+              description: Desired state of the TanzuKubernetesCluster.
+              type: object
+              required:
+                - topology
+              properties:
+                topology:
+                  description: Cluster topology specifying control plane and worker nodes.
+                  type: object
+                  required:
+                    - controlPlane
+                  properties:
+                    controlPlane:
+                      description: Control plane node configuration.
+                      type: object
+                      required:
+                        - count
+                        - vmClass
+                        - storageClass
+                        - tkr
+                      properties:
+                        count:
+                          description: Number of control plane nodes (1 or 3).
+                          type: integer
+                          minimum: 1
+                        vmClass:
+                          description: vSphere VM class for control plane nodes.
+                          type: string
+                        storageClass:
+                          description: Storage class for control plane nodes.
+                          type: string
+                        tkr:
+                          description: Tanzu Kubernetes Release reference.
+                          type: object
+                          properties:
+                            reference:
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                    nodePools:
+                      description: Worker node pool definitions.
+                      type: array
+                      items:
+                        type: object
+                        required:
+                          - name
+                          - count
+                          - vmClass
+                          - storageClass
+                          - tkr
+                        properties:
+                          name:
+                            type: string
+                          count:
+                            type: integer
+                            minimum: 1
+                          vmClass:
+                            type: string
+                          storageClass:
+                            type: string
+                          tkr:
+                            type: object
+                settings:
+                  description: Optional cluster configuration settings.
+                  type: object
+                  properties:
+                    network:
+                      type: object
+                      properties:
+                        serviceCidr:
+                          type: string
+                        podCidr:
+                          type: string
+                        cni:
+                          type: object
+            status:
+              description: Observed state of the TanzuKubernetesCluster.
+              type: object
+              properties:
+                phase:
+                  description: Current cluster lifecycle phase.
+                  type: string
+                  enum:
+                    - creating
+                    - running
+                    - updating
+                    - deleting
+                    - error
+                conditions:
+                  type: array
+                  items:
+                    type: object
+                apiEndpoint:
+                  description: API server endpoint for the workload cluster.
+                  type: string
+      subresources:
+        status: {}
+      additionalPrinterColumns:
+        - name: Phase
+          type: string
+          jsonPath: .status.phase
+        - name: Age
+          type: date
+          jsonPath: .metadata.creationTimestamp
+    - name: v1alpha1
+      served: true
+      storage: false
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+            status:
+              type: object

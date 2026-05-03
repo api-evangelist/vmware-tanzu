@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/vmware-tanzu/refs/heads/main/json-schema/vmware-tanzu-global-namespace-schema.json",
+  "title": "Tanzu Service Mesh Global Namespace",
+  "description": "A Tanzu Service Mesh global namespace that connects workloads across multiple Kubernetes clusters and clouds into a single virtual network.",
+  "type": "object",
+  "required": ["id", "name"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique global namespace identifier."
+    },
+    "name": {
+      "type": "string",
+      "description": "Global namespace name."
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the global namespace purpose."
+    },
+    "domain_name": {
+      "type": "string",
+      "description": "DNS domain used for inter-service communication within the namespace."
+    },
+    "use_shared_gateway": {
+      "type": "boolean",
+      "description": "Whether to use a shared ingress gateway."
+    },
+    "mtls_enforced": {
+      "type": "boolean",
+      "description": "Whether mutual TLS is enforced for all inter-service communication."
+    },
+    "ca_type": {
+      "type": "string",
+      "description": "Certificate authority type.",
+      "enum": ["PreExistingCA", "GeneratedCA"]
+    },
+    "cluster_configs": {
+      "type": "array",
+      "description": "Clusters and namespaces participating in this global namespace.",
+      "items": {
+        "$ref": "#/$defs/ClusterConfig"
+      }
+    },
+    "status": {
+      "type": "string",
+      "description": "Current global namespace status.",
+      "enum": ["READY", "PENDING", "ERROR"]
+    }
+  },
+  "$defs": {
+    "ClusterConfig": {
+      "type": "object",
+      "description": "A cluster participating in a global namespace.",
+      "required": ["cluster_name"],
+      "properties": {
+        "cluster_name": {
+          "type": "string",
+          "description": "Name of the participating cluster."
+        },
+        "namespaces": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Kubernetes namespaces from this cluster included in the global namespace."
+        }
+      }
+    }
+  }
+}

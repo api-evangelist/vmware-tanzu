@@ -1,0 +1,565 @@
+openapi: 3.1.0
+info:
+  title: VMware Tanzu Service Mesh API
+  description: >-
+    The VMware Tanzu Service Mesh REST API provides programmatic management of
+    Kubernetes clusters onboarded to Tanzu Service Mesh, global namespaces
+    spanning multiple clusters and clouds, resource groups for policy
+    enforcement, and service groups. Authentication uses a CSP API token
+    exchanged for a short-lived Bearer token passed via the csp-auth-token header.
+  version: v1alpha1
+  contact:
+    name: VMware Tanzu Support
+    url: https://tanzu.vmware.com/support
+  license:
+    name: Proprietary
+    url: https://tanzu.vmware.com/
+externalDocs:
+  description: Tanzu Service Mesh API Documentation
+  url: https://docs.vmware.com/en/VMware-Tanzu-Service-Mesh/services/api-programming-guide/GUID-6C5044B8-6950-42A6-87A5-3D88BEAE09DB.html
+servers:
+  - url: https://prod-2.nsxservicemesh.vmware.com
+    description: VMware Tanzu Service Mesh Production API
+tags:
+  - name: Authentication
+    description: Exchange CSP API tokens for Bearer access tokens
+  - name: Clusters
+    description: Manage Kubernetes clusters onboarded to Tanzu Service Mesh
+  - name: Global Namespaces
+    description: Manage global namespaces connecting workloads across clusters
+  - name: Resource Groups
+    description: Manage resource groups for policy enforcement and monitoring
+  - name: Service Groups
+    description: Manage service groups within global namespaces
+paths:
+  /csp/gateway/am/api/auth/api-tokens/authorize:
+    post:
+      operationId: exchangeApiToken
+      summary: Exchange API Token for Access Token
+      description: >-
+        Exchange a long-lived CSP API token for a short-lived Bearer access
+        token. The returned token must be used in the csp-auth-token header
+        for all subsequent API calls.
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - refresh_token
+              properties:
+                refresh_token:
+                  type: string
+                  description: Your long-lived CSP API token.
+      responses:
+        '200':
+          description: Access token response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v1alpha1/clusters:
+    get:
+      operationId: listClusters
+      summary: List Clusters
+      description: Retrieve all Kubernetes clusters onboarded to Tanzu Service Mesh.
+      tags:
+        - Clusters
+      security:
+        - CspAuthToken: []
+      responses:
+        '200':
+          description: List of clusters
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  clusters:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Cluster'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v1alpha1/clusters/{cluster_name}:
+    get:
+      operationId: getCluster
+      summary: Get Cluster
+      description: Retrieve details for a specific onboarded cluster.
+      tags:
+        - Clusters
+      security:
+        - CspAuthToken: []
+      parameters:
+        - name: cluster_name
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The cluster name as registered in Tanzu Service Mesh
+      responses:
+        '200':
+          description: Cluster details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cluster'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: onboardCluster
+      summary: Onboard Cluster
+      description: >-
+        Onboard a Kubernetes cluster to Tanzu Service Mesh. This initiates
+        the installation of the TSM agent on the cluster.
+      tags:
+        - Clusters
+      security:
+        - CspAuthToken: []
+      parameters:
+        - name: cluster_name
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique name for the cluster in Tanzu Service Mesh
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OnboardClusterRequest'
+      responses:
+        '200':
+          description: Cluster onboarding initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cluster'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      operationId: removeCluster
+      summary: Remove Cluster
+      description: Remove a cluster from Tanzu Service Mesh management.
+      tags:
+        - Clusters
+      security:
+        - CspAuthToken: []
+      parameters:
+        - name: cluster_name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Cluster removal initiated
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v1alpha1/global-namespaces:
+    get:
+      operationId: listGlobalNamespaces
+      summary: List Global Namespaces
+      description: >-
+        List all global namespaces. A global namespace connects workloads
+        across multiple clusters and clouds into one virtual unit for
+        consistent traffic routing, connectivity, and security.
+      tags:
+        - Global Namespaces
+      security:
+        - CspAuthToken: []
+      responses:
+        '200':
+          description: List of global namespaces
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  global_namespaces:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/GlobalNamespace'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createGlobalNamespace
+      summary: Create Global Namespace
+      description: Create a new global namespace spanning multiple clusters.
+      tags:
+        - Global Namespaces
+      security:
+        - CspAuthToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateGlobalNamespaceRequest'
+      responses:
+        '200':
+          description: Global namespace created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GlobalNamespace'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v1alpha1/global-namespaces/{namespace_id}:
+    get:
+      operationId: getGlobalNamespace
+      summary: Get Global Namespace
+      description: Retrieve details for a specific global namespace.
+      tags:
+        - Global Namespaces
+      security:
+        - CspAuthToken: []
+      parameters:
+        - name: namespace_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Global namespace identifier
+      responses:
+        '200':
+          description: Global namespace details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GlobalNamespace'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateGlobalNamespace
+      summary: Update Global Namespace
+      description: Update the configuration of a global namespace.
+      tags:
+        - Global Namespaces
+      security:
+        - CspAuthToken: []
+      parameters:
+        - name: namespace_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateGlobalNamespaceRequest'
+      responses:
+        '200':
+          description: Global namespace updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GlobalNamespace'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      operationId: deleteGlobalNamespace
+      summary: Delete Global Namespace
+      description: Delete a global namespace.
+      tags:
+        - Global Namespaces
+      security:
+        - CspAuthToken: []
+      parameters:
+        - name: namespace_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Global namespace deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v1alpha1/resource-groups:
+    get:
+      operationId: listResourceGroups
+      summary: List Resource Groups
+      description: >-
+        List all resource groups. A resource group is a collection of cluster
+        resources sharing specific characteristics, used to enforce policies
+        and monitor performance.
+      tags:
+        - Resource Groups
+      security:
+        - CspAuthToken: []
+      responses:
+        '200':
+          description: List of resource groups
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  resource_groups:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ResourceGroup'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createResourceGroup
+      summary: Create Resource Group
+      description: Create a new resource group.
+      tags:
+        - Resource Groups
+      security:
+        - CspAuthToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateResourceGroupRequest'
+      responses:
+        '200':
+          description: Resource group created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceGroup'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  securitySchemes:
+    CspAuthToken:
+      type: apiKey
+      in: header
+      name: csp-auth-token
+      description: >-
+        Short-lived Bearer token obtained by exchanging a CSP API token via
+        POST /csp/gateway/am/api/auth/api-tokens/authorize.
+  schemas:
+    TokenResponse:
+      type: object
+      description: OAuth access token response from CSP token exchange.
+      properties:
+        access_token:
+          type: string
+          description: Short-lived Bearer access token. Use in csp-auth-token header.
+        token_type:
+          type: string
+          description: Token type (always bearer).
+        expires_in:
+          type: integer
+          description: Token lifetime in seconds.
+        scope:
+          type: string
+    Cluster:
+      type: object
+      description: A Kubernetes cluster onboarded to Tanzu Service Mesh.
+      properties:
+        name:
+          type: string
+          description: Cluster name in Tanzu Service Mesh.
+          example: "production-west"
+        display_name:
+          type: string
+          description: Human-readable cluster display name.
+        state:
+          type: string
+          description: Current cluster state.
+          enum:
+            - READY
+            - INSTALLING
+            - OFFLINE
+            - ERROR
+            - REMOVING
+        cloud_provider:
+          type: string
+          description: Cloud provider hosting the cluster.
+          example: "AWS"
+        region:
+          type: string
+          description: Cloud region.
+          example: "us-west-2"
+        k8s_version:
+          type: string
+          description: Kubernetes version.
+          example: "1.29.0"
+        tsm_version:
+          type: string
+          description: TSM agent version installed on the cluster.
+        namespace_count:
+          type: integer
+          description: Number of namespaces in the cluster.
+    OnboardClusterRequest:
+      type: object
+      description: Request body to onboard a cluster to Tanzu Service Mesh.
+      properties:
+        display_name:
+          type: string
+          description: Human-readable name for the cluster.
+        description:
+          type: string
+          description: Description of the cluster.
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+          description: Key-value tags for organizing clusters.
+    GlobalNamespace:
+      type: object
+      description: A global namespace connecting workloads across multiple clusters.
+      properties:
+        id:
+          type: string
+          description: Global namespace identifier.
+        name:
+          type: string
+          description: Global namespace name.
+        description:
+          type: string
+        domain_name:
+          type: string
+          description: DNS domain for the global namespace.
+        use_shared_gateway:
+          type: boolean
+          description: Whether to use a shared gateway.
+        mtls_enforced:
+          type: boolean
+          description: Whether mTLS is enforced for inter-service communication.
+        ca_type:
+          type: string
+          description: Certificate authority type.
+          enum:
+            - PreExistingCA
+            - GeneratedCA
+        cluster_configs:
+          type: array
+          description: Cluster configurations participating in this global namespace.
+          items:
+            $ref: '#/components/schemas/ClusterConfig'
+        status:
+          type: string
+          description: Global namespace status.
+          enum:
+            - READY
+            - PENDING
+            - ERROR
+    CreateGlobalNamespaceRequest:
+      type: object
+      required:
+        - name
+      description: Request body for creating a global namespace.
+      properties:
+        name:
+          type: string
+          description: Global namespace name.
+        description:
+          type: string
+        domain_name:
+          type: string
+        mtls_enforced:
+          type: boolean
+          default: true
+        cluster_configs:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClusterConfig'
+    ClusterConfig:
+      type: object
+      description: Configuration for a cluster participating in a global namespace.
+      properties:
+        cluster_name:
+          type: string
+          description: Name of the cluster.
+        namespaces:
+          type: array
+          items:
+            type: string
+          description: Kubernetes namespaces from this cluster to include.
+    ResourceGroup:
+      type: object
+      description: A resource group collecting cluster resources for policy and monitoring.
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+          description: Resource group name.
+        description:
+          type: string
+        resource_type:
+          type: string
+          description: Type of resources in this group.
+          enum:
+            - Namespace
+            - Service
+            - Pod
+        membership_criteria:
+          type: array
+          description: Criteria for resource membership.
+          items:
+            type: object
+    CreateResourceGroupRequest:
+      type: object
+      required:
+        - name
+        - resource_type
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        resource_type:
+          type: string
+        membership_criteria:
+          type: array
+          items:
+            type: object
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        details:
+          type: string
+  responses:
+    Unauthorized:
+      description: Invalid or expired csp-auth-token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Invalid request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'

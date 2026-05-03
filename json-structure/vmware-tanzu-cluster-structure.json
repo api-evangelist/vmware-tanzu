@@ -1,0 +1,15 @@
+{
+  "name": "TanzuServiceMeshCluster",
+  "description": "Kubernetes cluster onboarded to Tanzu Service Mesh",
+  "type": "object",
+  "fields": [
+    {"name": "name", "type": "string", "required": true, "description": "Cluster name in TSM"},
+    {"name": "display_name", "type": "string", "required": false, "description": "Human-readable name"},
+    {"name": "state", "type": "string (enum)", "required": true, "description": "READY|INSTALLING|OFFLINE|ERROR|REMOVING"},
+    {"name": "cloud_provider", "type": "string", "required": false, "description": "AWS|Azure|GCP|vSphere|On-Premises"},
+    {"name": "region", "type": "string", "required": false, "description": "Cloud/datacenter region"},
+    {"name": "k8s_version", "type": "string", "required": false, "description": "Kubernetes version"},
+    {"name": "tsm_version", "type": "string", "required": false, "description": "TSM agent version"},
+    {"name": "namespace_count", "type": "integer", "required": false, "description": "Number of k8s namespaces"}
+  ]
+}

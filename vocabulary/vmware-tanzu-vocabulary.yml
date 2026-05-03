@@ -1,0 +1,140 @@
+vocabulary:
+  name: VMware Tanzu Vocabulary
+  description: >-
+    Canonical terms and concepts used in the VMware Tanzu platform, covering
+    Tanzu Service Mesh, Tanzu Kubernetes Grid, Tanzu Application Platform,
+    and the broader Kubernetes multi-cloud infrastructure portfolio.
+  version: 1.0.0
+  created: '2026-05-03'
+  modified: '2026-05-03'
+  tags:
+    - Cloud Native
+    - Kubernetes
+    - VMware Tanzu
+
+terms:
+  - term: Tanzu Service Mesh
+    altTerms:
+      - TSM
+    definition: >-
+      VMware's SaaS-based service mesh for connecting and securing
+      microservices across Kubernetes clusters, clouds, and on-premises
+      environments. Provides global namespaces, traffic policies, and
+      observability.
+    tags:
+      - Product
+
+  - term: Global Namespace
+    definition: >-
+      A virtual unit in Tanzu Service Mesh that connects workloads across
+      multiple Kubernetes clusters and clouds, providing consistent traffic
+      routing, resiliency, and mutual TLS security.
+    tags:
+      - Service Mesh
+
+  - term: TanzuKubernetesCluster
+    altTerms:
+      - TKC
+    definition: >-
+      A Kubernetes Custom Resource (CRD) used to declaratively provision and
+      manage workload Kubernetes clusters on a vSphere Supervisor. Defines
+      control plane and worker node topology, VM classes, and TKR versions.
+    tags:
+      - CRD
+
+  - term: Tanzu Kubernetes Release
+    altTerms:
+      - TKR
+    definition: >-
+      A versioned bundle of Kubernetes and supporting components validated
+      and distributed by VMware for deployment on Tanzu Kubernetes Grid.
+      TKR names follow the format v{k8s-version}---vmware.{build}.
+    tags:
+      - Versioning
+
+  - term: Tanzu Kubernetes Grid
+    altTerms:
+      - TKG
+    definition: >-
+      VMware's multi-cloud Kubernetes runtime that provisions and manages
+      Kubernetes clusters across vSphere, AWS, Azure, and other environments
+      using a declarative CRD-based API.
+    tags:
+      - Product
+
+  - term: Supervisor Cluster
+    definition: >-
+      A special vSphere cluster with Kubernetes capabilities that hosts the
+      Tanzu Kubernetes Grid control plane, vSphere namespaces, and the
+      TanzuKubernetesCluster CRD controller.
+    tags:
+      - vSphere
+
+  - term: vSphere Namespace
+    definition: >-
+      A vSphere construct that maps to a Kubernetes namespace on the Supervisor
+      cluster. Provides resource quotas, storage policies, and RBAC for
+      Tanzu Kubernetes clusters deployed within it.
+    tags:
+      - vSphere
+
+  - term: VM Operator
+    definition: >-
+      A Kubernetes operator in the VMware Tanzu ecosystem that enables
+      self-service management of virtual machines using a Kubernetes-style
+      declarative API (VirtualMachine CRD).
+    tags:
+      - Operator
+
+  - term: Velero
+    definition: >-
+      An open source tool from VMware Tanzu for backup and restore of
+      Kubernetes cluster resources and persistent volumes.
+    tags:
+      - Tool
+
+  - term: Cartographer
+    definition: >-
+      VMware Tanzu's supply chain choreography tool for Kubernetes, providing
+      a secure software supply chain by defining paths from code to running
+      workloads via CRDs.
+    tags:
+      - Tool
+
+  - term: mTLS
+    altTerms:
+      - Mutual TLS
+      - mtls_enforced
+    definition: >-
+      A security protocol requiring both parties in a connection to authenticate
+      using TLS certificates. Enforced by Tanzu Service Mesh for all inter-service
+      communication within a global namespace.
+    tags:
+      - Security
+
+  - term: CSP Token
+    altTerms:
+      - Cloud Services Platform Token
+      - csp-auth-token
+    definition: >-
+      A long-lived API token from VMware Cloud Services Platform (CSP) that
+      is exchanged for a short-lived Bearer token for authenticating calls
+      to the Tanzu Service Mesh REST API.
+    tags:
+      - Authentication
+
+  - term: Tanzu CLI
+    definition: >-
+      The official command-line interface for the Tanzu platform, built on a
+      plugin architecture. Provides unified access to Tanzu Application Platform,
+      Tanzu Kubernetes Grid, and other Tanzu products.
+    tags:
+      - Tool
+
+  - term: Pinniped
+    definition: >-
+      An open source project (CNCF Sandbox) for Kubernetes authentication
+      federation. Recommended by VMware for integrating enterprise identity
+      providers with Tanzu Application Platform.
+    tags:
+      - Authentication

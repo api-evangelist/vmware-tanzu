@@ -1,0 +1,92 @@
+{
+  "title": "Create TanzuKubernetesCluster",
+  "description": "Create a new workload cluster using the TanzuKubernetesCluster CRD on a vSphere Supervisor.",
+  "operation": "createTanzuKubernetesCluster",
+  "request": {
+    "method": "POST",
+    "url": "https://192.168.1.100:6443/apis/run.tanzu.vmware.com/v1alpha2/namespaces/dev-namespace/tanzukubernetesclusters",
+    "headers": {
+      "Authorization": "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6...",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "apiVersion": "run.tanzu.vmware.com/v1alpha2",
+      "kind": "TanzuKubernetesCluster",
+      "metadata": {
+        "name": "my-workload-cluster",
+        "namespace": "dev-namespace"
+      },
+      "spec": {
+        "topology": {
+          "controlPlane": {
+            "count": 1,
+            "vmClass": "best-effort-small",
+            "storageClass": "wcpglobal-storage-profile",
+            "tkr": {
+              "reference": {
+                "name": "v1.29.0---vmware.1-tkg.1"
+              }
+            }
+          },
+          "nodePools": [
+            {
+              "name": "workers",
+              "count": 3,
+              "vmClass": "best-effort-medium",
+              "storageClass": "wcpglobal-storage-profile",
+              "tkr": {
+                "reference": {
+                  "name": "v1.29.0---vmware.1-tkg.1"
+                }
+              }
+            }
+          ]
+        },
+        "settings": {
+          "network": {
+            "serviceCidr": "10.96.0.0/12",
+            "podCidr": "192.168.0.0/16"
+          }
+        }
+      }
+    }
+  },
+  "response": {
+    "status": 201,
+    "body": {
+      "apiVersion": "run.tanzu.vmware.com/v1alpha2",
+      "kind": "TanzuKubernetesCluster",
+      "metadata": {
+        "name": "my-workload-cluster",
+        "namespace": "dev-namespace",
+        "creationTimestamp": "2026-05-03T10:00:00Z"
+      },
+      "spec": {
+        "topology": {
+          "controlPlane": {
+            "count": 1,
+            "vmClass": "best-effort-small",
+            "storageClass": "wcpglobal-storage-profile",
+            "tkr": {
+              "reference": {
+                "name": "v1.29.0---vmware.1-tkg.1"
+              }
+            }
+          },
+          "nodePools": [
+            {
+              "name": "workers",
+              "count": 3,
+              "vmClass": "best-effort-medium",
+              "storageClass": "wcpglobal-storage-profile"
+            }
+          ]
+        }
+      },
+      "status": {
+        "phase": "creating",
+        "conditions": []
+      }
+    }
+  }
+}

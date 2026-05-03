@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/vmware-tanzu/refs/heads/main/json-schema/vmware-tanzu-cluster-schema.json",
+  "title": "Tanzu Service Mesh Cluster",
+  "description": "A Kubernetes cluster onboarded to VMware Tanzu Service Mesh with its status and cloud provider metadata.",
+  "type": "object",
+  "required": ["name", "state"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Cluster name in Tanzu Service Mesh.",
+      "example": "production-west"
+    },
+    "display_name": {
+      "type": "string",
+      "description": "Human-readable cluster display name."
+    },
+    "state": {
+      "type": "string",
+      "description": "Current cluster state.",
+      "enum": ["READY", "INSTALLING", "OFFLINE", "ERROR", "REMOVING"]
+    },
+    "cloud_provider": {
+      "type": "string",
+      "description": "Cloud provider hosting the cluster.",
+      "example": "AWS",
+      "enum": ["AWS", "Azure", "GCP", "vSphere", "On-Premises", "Other"]
+    },
+    "region": {
+      "type": "string",
+      "description": "Cloud or datacenter region.",
+      "example": "us-west-2"
+    },
+    "k8s_version": {
+      "type": "string",
+      "description": "Kubernetes version running on the cluster.",
+      "example": "1.29.0"
+    },
+    "tsm_version": {
+      "type": "string",
+      "description": "TSM agent version installed on the cluster."
+    },
+    "namespace_count": {
+      "type": "integer",
+      "description": "Number of Kubernetes namespaces in the cluster.",
+      "minimum": 0
+    }
+  }
+}
