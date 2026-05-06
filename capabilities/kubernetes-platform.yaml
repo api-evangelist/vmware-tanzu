@@ -1,279 +1,411 @@
-naftiko: "1.0.0-alpha1"
-
+naftiko: 1.0.0-alpha2
 info:
-  label: "VMware Tanzu Kubernetes Platform Workflow"
-  description: >-
-    Workflow capability for platform engineers managing VMware Tanzu Kubernetes
-    infrastructure. Combines Tanzu Service Mesh management (cluster onboarding,
-    global namespaces, resource groups) with Kubernetes cluster lifecycle
-    operations. Targeted at platform ops teams managing multi-cluster
-    Kubernetes environments across clouds and on-premises vSphere.
+  label: VMware Tanzu Kubernetes Platform Workflow
+  description: Workflow capability for platform engineers managing VMware Tanzu Kubernetes infrastructure. Combines Tanzu
+    Service Mesh management (cluster onboarding, global namespaces, resource groups) with Kubernetes cluster lifecycle operations.
+    Targeted at platform ops teams managing multi-cluster Kubernetes environments across clouds and on-premises vSphere.
   tags:
-    - VMware Tanzu
-    - Cloud Native
-    - Clusters
-    - Containers
-    - Enterprise
-    - Global Namespaces
-    - Kubernetes
-    - Multi-Cloud
-    - Service Mesh
-    - vSphere
-  created: "2026-05-03"
-  modified: "2026-05-03"
-
+  - VMware Tanzu
+  - Cloud Native
+  - Clusters
+  - Containers
+  - Enterprise
+  - Global Namespaces
+  - Kubernetes
+  - Multi-Cloud
+  - Service Mesh
+  - vSphere
+  created: '2026-05-03'
+  modified: '2026-05-06'
 binds:
-  - namespace: env
-    keys:
-      TANZU_CSP_API_TOKEN: TANZU_CSP_API_TOKEN
-
+- namespace: env
+  keys:
+    TANZU_CSP_API_TOKEN: TANZU_CSP_API_TOKEN
 capability:
   consumes:
-    - import: tanzu-tsm
-      location: ./shared/tanzu-service-mesh.yaml
-
+  - type: http
+    namespace: tanzu-tsm
+    baseUri: https://prod-2.nsxservicemesh.vmware.com
+    description: VMware Tanzu Service Mesh REST API.
+    authentication:
+      type: apikey
+      key: csp-auth-token
+      value: '{{TANZU_CSP_API_TOKEN}}'
+      placement: header
+    resources:
+    - name: clusters
+      path: /v1alpha1/clusters
+      description: Cluster management.
+      operations:
+      - name: list-clusters
+        method: GET
+        description: List all clusters onboarded to Tanzu Service Mesh.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: cluster-detail
+      path: /v1alpha1/clusters/{cluster_name}
+      description: Individual cluster operations.
+      operations:
+      - name: get-cluster
+        method: GET
+        description: Get cluster details.
+        inputParameters:
+        - name: cluster_name
+          in: path
+          type: string
+          required: true
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: onboard-cluster
+        method: PUT
+        description: Onboard a Kubernetes cluster to TSM.
+        inputParameters:
+        - name: cluster_name
+          in: path
+          type: string
+          required: true
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        body:
+          type: json
+          data:
+            display_name: '{{tools.display_name}}'
+            description: '{{tools.description}}'
+      - name: remove-cluster
+        method: DELETE
+        description: Remove a cluster from TSM.
+        inputParameters:
+        - name: cluster_name
+          in: path
+          type: string
+          required: true
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: global-namespaces
+      path: /v1alpha1/global-namespaces
+      description: Global namespace management.
+      operations:
+      - name: list-global-namespaces
+        method: GET
+        description: List all global namespaces.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: create-global-namespace
+        method: POST
+        description: Create a global namespace spanning multiple clusters.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        body:
+          type: json
+          data:
+            name: '{{tools.name}}'
+            domain_name: '{{tools.domain_name}}'
+            mtls_enforced: '{{tools.mtls_enforced}}'
+    - name: global-namespace-detail
+      path: /v1alpha1/global-namespaces/{namespace_id}
+      description: Individual global namespace.
+      operations:
+      - name: get-global-namespace
+        method: GET
+        description: Get global namespace details.
+        inputParameters:
+        - name: namespace_id
+          in: path
+          type: string
+          required: true
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: delete-global-namespace
+        method: DELETE
+        description: Delete a global namespace.
+        inputParameters:
+        - name: namespace_id
+          in: path
+          type: string
+          required: true
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: resource-groups
+      path: /v1alpha1/resource-groups
+      description: Resource group management.
+      operations:
+      - name: list-resource-groups
+        method: GET
+        description: List resource groups.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: create-resource-group
+        method: POST
+        description: Create a resource group.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        body:
+          type: json
+          data:
+            name: '{{tools.name}}'
+            resource_type: '{{tools.resource_type}}'
   exposes:
-    - type: rest
-      port: 8080
-      namespace: tanzu-platform-api
-      description: "Unified REST API for VMware Tanzu Kubernetes platform management."
-      resources:
-        - path: /v1/clusters
-          name: clusters
-          description: "Kubernetes cluster management."
-          operations:
-            - method: GET
-              name: list-clusters
-              description: "List clusters onboarded to Tanzu Service Mesh."
-              call: "tanzu-tsm.list-clusters"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-        - path: /v1/clusters/{cluster_name}
-          name: cluster-detail
-          description: "Individual cluster operations."
-          operations:
-            - method: GET
-              name: get-cluster
-              description: "Get cluster details and status."
-              call: "tanzu-tsm.get-cluster"
-              with:
-                cluster_name: "rest.cluster_name"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-            - method: PUT
-              name: onboard-cluster
-              description: "Onboard a cluster to Tanzu Service Mesh."
-              call: "tanzu-tsm.onboard-cluster"
-              with:
-                cluster_name: "rest.cluster_name"
-                display_name: "rest.display_name"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-            - method: DELETE
-              name: remove-cluster
-              description: "Remove a cluster from TSM."
-              call: "tanzu-tsm.remove-cluster"
-              with:
-                cluster_name: "rest.cluster_name"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-        - path: /v1/global-namespaces
-          name: global-namespaces
-          description: "Global namespace management."
-          operations:
-            - method: GET
-              name: list-global-namespaces
-              description: "List global namespaces."
-              call: "tanzu-tsm.list-global-namespaces"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-            - method: POST
-              name: create-global-namespace
-              description: "Create a global namespace spanning clusters."
-              call: "tanzu-tsm.create-global-namespace"
-              with:
-                name: "rest.name"
-                domain_name: "rest.domain_name"
-                mtls_enforced: "rest.mtls_enforced"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-        - path: /v1/global-namespaces/{namespace_id}
-          name: global-namespace-detail
-          description: "Individual global namespace."
-          operations:
-            - method: GET
-              name: get-global-namespace
-              description: "Get global namespace details."
-              call: "tanzu-tsm.get-global-namespace"
-              with:
-                namespace_id: "rest.namespace_id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-            - method: DELETE
-              name: delete-global-namespace
-              description: "Delete a global namespace."
-              call: "tanzu-tsm.delete-global-namespace"
-              with:
-                namespace_id: "rest.namespace_id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-        - path: /v1/resource-groups
-          name: resource-groups
-          description: "Resource groups for policy."
-          operations:
-            - method: GET
-              name: list-resource-groups
-              description: "List resource groups."
-              call: "tanzu-tsm.list-resource-groups"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-            - method: POST
-              name: create-resource-group
-              description: "Create a resource group."
-              call: "tanzu-tsm.create-resource-group"
-              with:
-                name: "rest.name"
-                resource_type: "rest.resource_type"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-    - type: mcp
-      port: 9090
-      namespace: tanzu-platform-mcp
-      transport: http
-      description: "MCP server for AI-assisted Tanzu Kubernetes platform operations."
-      tools:
-        - name: list-tanzu-clusters
-          description: "List all Kubernetes clusters onboarded to Tanzu Service Mesh. Shows cluster state, cloud provider, region, and TSM agent version."
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "tanzu-tsm.list-clusters"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: get-tanzu-cluster
-          description: "Get detailed status for a specific Tanzu Service Mesh cluster, including phase, k8s version, and namespace count."
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "tanzu-tsm.get-cluster"
-          with:
-            cluster_name: "tools.cluster_name"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: onboard-kubernetes-cluster
-          description: "Onboard a Kubernetes cluster to Tanzu Service Mesh. Installs the TSM agent and enables service mesh management."
-          hints:
-            readOnly: false
-            idempotent: true
-          call: "tanzu-tsm.onboard-cluster"
-          with:
-            cluster_name: "tools.cluster_name"
-            display_name: "tools.display_name"
-            description: "tools.description"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: remove-kubernetes-cluster
-          description: "Remove a Kubernetes cluster from Tanzu Service Mesh management."
-          hints:
-            readOnly: false
-            destructive: true
-            idempotent: true
-          call: "tanzu-tsm.remove-cluster"
-          with:
-            cluster_name: "tools.cluster_name"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: list-global-namespaces
-          description: "List all global namespaces in Tanzu Service Mesh. Global namespaces connect workloads across multiple clusters into a single virtual network."
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "tanzu-tsm.list-global-namespaces"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: create-global-namespace
-          description: "Create a global namespace to connect workloads across multiple Kubernetes clusters. Enables consistent traffic routing and mTLS security."
-          hints:
-            readOnly: false
-            idempotent: false
-          call: "tanzu-tsm.create-global-namespace"
-          with:
-            name: "tools.name"
-            domain_name: "tools.domain_name"
-            mtls_enforced: "tools.mtls_enforced"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: get-global-namespace
-          description: "Get details for a specific global namespace, including cluster configurations and status."
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "tanzu-tsm.get-global-namespace"
-          with:
-            namespace_id: "tools.namespace_id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: delete-global-namespace
-          description: "Delete a global namespace from Tanzu Service Mesh."
-          hints:
-            readOnly: false
-            destructive: true
-            idempotent: true
-          call: "tanzu-tsm.delete-global-namespace"
-          with:
-            namespace_id: "tools.namespace_id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: list-resource-groups
-          description: "List resource groups used for policy enforcement and monitoring across clusters."
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "tanzu-tsm.list-resource-groups"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: create-resource-group
-          description: "Create a resource group to enforce policies across a set of namespaces, services, or pods."
-          hints:
-            readOnly: false
-            idempotent: false
-          call: "tanzu-tsm.create-resource-group"
-          with:
-            name: "tools.name"
-            resource_type: "tools.resource_type"
-          outputParameters:
-            - type: object
-              mapping: "$."
+  - type: rest
+    port: 8080
+    namespace: tanzu-platform-api
+    description: Unified REST API for VMware Tanzu Kubernetes platform management.
+    resources:
+    - path: /v1/clusters
+      name: clusters
+      description: Kubernetes cluster management.
+      operations:
+      - method: GET
+        name: list-clusters
+        description: List clusters onboarded to Tanzu Service Mesh.
+        call: tanzu-tsm.list-clusters
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/clusters/{cluster_name}
+      name: cluster-detail
+      description: Individual cluster operations.
+      operations:
+      - method: GET
+        name: get-cluster
+        description: Get cluster details and status.
+        call: tanzu-tsm.get-cluster
+        with:
+          cluster_name: rest.cluster_name
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: onboard-cluster
+        description: Onboard a cluster to Tanzu Service Mesh.
+        call: tanzu-tsm.onboard-cluster
+        with:
+          cluster_name: rest.cluster_name
+          display_name: rest.display_name
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: remove-cluster
+        description: Remove a cluster from TSM.
+        call: tanzu-tsm.remove-cluster
+        with:
+          cluster_name: rest.cluster_name
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/global-namespaces
+      name: global-namespaces
+      description: Global namespace management.
+      operations:
+      - method: GET
+        name: list-global-namespaces
+        description: List global namespaces.
+        call: tanzu-tsm.list-global-namespaces
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: create-global-namespace
+        description: Create a global namespace spanning clusters.
+        call: tanzu-tsm.create-global-namespace
+        with:
+          name: rest.name
+          domain_name: rest.domain_name
+          mtls_enforced: rest.mtls_enforced
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/global-namespaces/{namespace_id}
+      name: global-namespace-detail
+      description: Individual global namespace.
+      operations:
+      - method: GET
+        name: get-global-namespace
+        description: Get global namespace details.
+        call: tanzu-tsm.get-global-namespace
+        with:
+          namespace_id: rest.namespace_id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: delete-global-namespace
+        description: Delete a global namespace.
+        call: tanzu-tsm.delete-global-namespace
+        with:
+          namespace_id: rest.namespace_id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/resource-groups
+      name: resource-groups
+      description: Resource groups for policy.
+      operations:
+      - method: GET
+        name: list-resource-groups
+        description: List resource groups.
+        call: tanzu-tsm.list-resource-groups
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: create-resource-group
+        description: Create a resource group.
+        call: tanzu-tsm.create-resource-group
+        with:
+          name: rest.name
+          resource_type: rest.resource_type
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    port: 9090
+    namespace: tanzu-platform-mcp
+    transport: http
+    description: MCP server for AI-assisted Tanzu Kubernetes platform operations.
+    tools:
+    - name: list-tanzu-clusters
+      description: List all Kubernetes clusters onboarded to Tanzu Service Mesh. Shows cluster state, cloud provider, region,
+        and TSM agent version.
+      hints:
+        readOnly: true
+        idempotent: true
+      call: tanzu-tsm.list-clusters
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-tanzu-cluster
+      description: Get detailed status for a specific Tanzu Service Mesh cluster, including phase, k8s version, and namespace
+        count.
+      hints:
+        readOnly: true
+        idempotent: true
+      call: tanzu-tsm.get-cluster
+      with:
+        cluster_name: tools.cluster_name
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: onboard-kubernetes-cluster
+      description: Onboard a Kubernetes cluster to Tanzu Service Mesh. Installs the TSM agent and enables service mesh management.
+      hints:
+        readOnly: false
+        idempotent: true
+      call: tanzu-tsm.onboard-cluster
+      with:
+        cluster_name: tools.cluster_name
+        display_name: tools.display_name
+        description: tools.description
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: remove-kubernetes-cluster
+      description: Remove a Kubernetes cluster from Tanzu Service Mesh management.
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: tanzu-tsm.remove-cluster
+      with:
+        cluster_name: tools.cluster_name
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-global-namespaces
+      description: List all global namespaces in Tanzu Service Mesh. Global namespaces connect workloads across multiple clusters
+        into a single virtual network.
+      hints:
+        readOnly: true
+        idempotent: true
+      call: tanzu-tsm.list-global-namespaces
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-global-namespace
+      description: Create a global namespace to connect workloads across multiple Kubernetes clusters. Enables consistent
+        traffic routing and mTLS security.
+      hints:
+        readOnly: false
+        idempotent: false
+      call: tanzu-tsm.create-global-namespace
+      with:
+        name: tools.name
+        domain_name: tools.domain_name
+        mtls_enforced: tools.mtls_enforced
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-global-namespace
+      description: Get details for a specific global namespace, including cluster configurations and status.
+      hints:
+        readOnly: true
+        idempotent: true
+      call: tanzu-tsm.get-global-namespace
+      with:
+        namespace_id: tools.namespace_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-global-namespace
+      description: Delete a global namespace from Tanzu Service Mesh.
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: tanzu-tsm.delete-global-namespace
+      with:
+        namespace_id: tools.namespace_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-resource-groups
+      description: List resource groups used for policy enforcement and monitoring across clusters.
+      hints:
+        readOnly: true
+        idempotent: true
+      call: tanzu-tsm.list-resource-groups
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-resource-group
+      description: Create a resource group to enforce policies across a set of namespaces, services, or pods.
+      hints:
+        readOnly: false
+        idempotent: false
+      call: tanzu-tsm.create-resource-group
+      with:
+        name: tools.name
+        resource_type: tools.resource_type
+      outputParameters:
+      - type: object
+        mapping: $.
