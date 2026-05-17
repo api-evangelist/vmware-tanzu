@@ -69,13 +69,13 @@ common:
     url: https://tanzu.vmware.com/
   - type: Documentation
     url: https://docs.vmware.com/en/VMware-Tanzu/index.html
-  - type: GitHub Organization
+  - type: GitHubOrganization
     url: https://github.com/vmware-tanzu
   - type: Blog
     url: https://tanzu.vmware.com/content/blog
   - type: Pricing
     url: https://tanzu.vmware.com/pricing
-  - type: Sign Up
+  - type: SignUp
     url: https://tanzu.vmware.com/try
   - type: Broadcom TechDocs
     url: https://techdocs.broadcom.com/us/en/vmware-tanzu.html
