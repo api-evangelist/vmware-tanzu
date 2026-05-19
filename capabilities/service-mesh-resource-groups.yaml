@@ -1,0 +1,107 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: VMware Tanzu Service Mesh API — Resource Groups
+  description: 'VMware Tanzu Service Mesh API — Resource Groups. 2 operations. Lead operation: List Resource Groups. Self-contained
+    Naftiko capability covering one Vmware Tanzu business surface.'
+  tags:
+  - Vmware Tanzu
+  - Resource Groups
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    VMWARE_TANZU_API_KEY: VMWARE_TANZU_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: service-mesh-resource-groups
+    baseUri: https://prod-2.nsxservicemesh.vmware.com
+    description: VMware Tanzu Service Mesh API — Resource Groups business capability. Self-contained, no shared references.
+    resources:
+    - name: v1alpha1-resource-groups
+      path: /v1alpha1/resource-groups
+      operations:
+      - name: listresourcegroups
+        method: GET
+        description: List Resource Groups
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createresourcegroup
+        method: POST
+        description: Create Resource Group
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: apikey
+      key: csp-auth-token
+      value: '{{env.VMWARE_TANZU_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: service-mesh-resource-groups-rest
+    port: 8080
+    description: REST adapter for VMware Tanzu Service Mesh API — Resource Groups. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/v1alpha1/resource-groups
+      name: v1alpha1-resource-groups
+      description: REST surface for v1alpha1-resource-groups.
+      operations:
+      - method: GET
+        name: listresourcegroups
+        description: List Resource Groups
+        call: service-mesh-resource-groups.listresourcegroups
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createresourcegroup
+        description: Create Resource Group
+        call: service-mesh-resource-groups.createresourcegroup
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: service-mesh-resource-groups-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for VMware Tanzu Service Mesh API — Resource Groups. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: list-resource-groups
+      description: List Resource Groups
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: service-mesh-resource-groups.listresourcegroups
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-resource-group
+      description: Create Resource Group
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: service-mesh-resource-groups.createresourcegroup
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

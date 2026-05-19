@@ -1,0 +1,224 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: VMware Tanzu Service Mesh API — Global Namespaces
+  description: 'VMware Tanzu Service Mesh API — Global Namespaces. 5 operations. Lead operation: List Global Namespaces. Self-contained
+    Naftiko capability covering one Vmware Tanzu business surface.'
+  tags:
+  - Vmware Tanzu
+  - Global Namespaces
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    VMWARE_TANZU_API_KEY: VMWARE_TANZU_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: service-mesh-global-namespaces
+    baseUri: https://prod-2.nsxservicemesh.vmware.com
+    description: VMware Tanzu Service Mesh API — Global Namespaces business capability. Self-contained, no shared references.
+    resources:
+    - name: v1alpha1-global-namespaces
+      path: /v1alpha1/global-namespaces
+      operations:
+      - name: listglobalnamespaces
+        method: GET
+        description: List Global Namespaces
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createglobalnamespace
+        method: POST
+        description: Create Global Namespace
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v1alpha1-global-namespaces-namespace_id
+      path: /v1alpha1/global-namespaces/{namespace_id}
+      operations:
+      - name: getglobalnamespace
+        method: GET
+        description: Get Global Namespace
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: namespace_id
+          in: path
+          type: string
+          description: Global namespace identifier
+          required: true
+      - name: updateglobalnamespace
+        method: PUT
+        description: Update Global Namespace
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: namespace_id
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleteglobalnamespace
+        method: DELETE
+        description: Delete Global Namespace
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: namespace_id
+          in: path
+          type: string
+          required: true
+    authentication:
+      type: apikey
+      key: csp-auth-token
+      value: '{{env.VMWARE_TANZU_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: service-mesh-global-namespaces-rest
+    port: 8080
+    description: REST adapter for VMware Tanzu Service Mesh API — Global Namespaces. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/v1alpha1/global-namespaces
+      name: v1alpha1-global-namespaces
+      description: REST surface for v1alpha1-global-namespaces.
+      operations:
+      - method: GET
+        name: listglobalnamespaces
+        description: List Global Namespaces
+        call: service-mesh-global-namespaces.listglobalnamespaces
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createglobalnamespace
+        description: Create Global Namespace
+        call: service-mesh-global-namespaces.createglobalnamespace
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1alpha1/global-namespaces/{namespace-id}
+      name: v1alpha1-global-namespaces-namespace-id
+      description: REST surface for v1alpha1-global-namespaces-namespace_id.
+      operations:
+      - method: GET
+        name: getglobalnamespace
+        description: Get Global Namespace
+        call: service-mesh-global-namespaces.getglobalnamespace
+        with:
+          namespace_id: rest.namespace_id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updateglobalnamespace
+        description: Update Global Namespace
+        call: service-mesh-global-namespaces.updateglobalnamespace
+        with:
+          namespace_id: rest.namespace_id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteglobalnamespace
+        description: Delete Global Namespace
+        call: service-mesh-global-namespaces.deleteglobalnamespace
+        with:
+          namespace_id: rest.namespace_id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: service-mesh-global-namespaces-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for VMware Tanzu Service Mesh API — Global Namespaces. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: list-global-namespaces
+      description: List Global Namespaces
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: service-mesh-global-namespaces.listglobalnamespaces
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-global-namespace
+      description: Create Global Namespace
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: service-mesh-global-namespaces.createglobalnamespace
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-global-namespace
+      description: Get Global Namespace
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: service-mesh-global-namespaces.getglobalnamespace
+      with:
+        namespace_id: tools.namespace_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-global-namespace
+      description: Update Global Namespace
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: service-mesh-global-namespaces.updateglobalnamespace
+      with:
+        namespace_id: tools.namespace_id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-global-namespace
+      description: Delete Global Namespace
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: service-mesh-global-namespaces.deleteglobalnamespace
+      with:
+        namespace_id: tools.namespace_id
+      outputParameters:
+      - type: object
+        mapping: $.

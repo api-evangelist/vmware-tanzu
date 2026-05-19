@@ -1,0 +1,190 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: VMware Tanzu Service Mesh API — Clusters
+  description: 'VMware Tanzu Service Mesh API — Clusters. 4 operations. Lead operation: List Clusters. Self-contained Naftiko
+    capability covering one Vmware Tanzu business surface.'
+  tags:
+  - Vmware Tanzu
+  - Clusters
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    VMWARE_TANZU_API_KEY: VMWARE_TANZU_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: service-mesh-clusters
+    baseUri: https://prod-2.nsxservicemesh.vmware.com
+    description: VMware Tanzu Service Mesh API — Clusters business capability. Self-contained, no shared references.
+    resources:
+    - name: v1alpha1-clusters
+      path: /v1alpha1/clusters
+      operations:
+      - name: listclusters
+        method: GET
+        description: List Clusters
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v1alpha1-clusters-cluster_name
+      path: /v1alpha1/clusters/{cluster_name}
+      operations:
+      - name: getcluster
+        method: GET
+        description: Get Cluster
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: cluster_name
+          in: path
+          type: string
+          description: The cluster name as registered in Tanzu Service Mesh
+          required: true
+      - name: onboardcluster
+        method: PUT
+        description: Onboard Cluster
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: cluster_name
+          in: path
+          type: string
+          description: Unique name for the cluster in Tanzu Service Mesh
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: removecluster
+        method: DELETE
+        description: Remove Cluster
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: cluster_name
+          in: path
+          type: string
+          required: true
+    authentication:
+      type: apikey
+      key: csp-auth-token
+      value: '{{env.VMWARE_TANZU_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: service-mesh-clusters-rest
+    port: 8080
+    description: REST adapter for VMware Tanzu Service Mesh API — Clusters. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/v1alpha1/clusters
+      name: v1alpha1-clusters
+      description: REST surface for v1alpha1-clusters.
+      operations:
+      - method: GET
+        name: listclusters
+        description: List Clusters
+        call: service-mesh-clusters.listclusters
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1alpha1/clusters/{cluster-name}
+      name: v1alpha1-clusters-cluster-name
+      description: REST surface for v1alpha1-clusters-cluster_name.
+      operations:
+      - method: GET
+        name: getcluster
+        description: Get Cluster
+        call: service-mesh-clusters.getcluster
+        with:
+          cluster_name: rest.cluster_name
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: onboardcluster
+        description: Onboard Cluster
+        call: service-mesh-clusters.onboardcluster
+        with:
+          cluster_name: rest.cluster_name
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: removecluster
+        description: Remove Cluster
+        call: service-mesh-clusters.removecluster
+        with:
+          cluster_name: rest.cluster_name
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: service-mesh-clusters-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for VMware Tanzu Service Mesh API — Clusters. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: list-clusters
+      description: List Clusters
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: service-mesh-clusters.listclusters
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-cluster
+      description: Get Cluster
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: service-mesh-clusters.getcluster
+      with:
+        cluster_name: tools.cluster_name
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: onboard-cluster
+      description: Onboard Cluster
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: service-mesh-clusters.onboardcluster
+      with:
+        cluster_name: tools.cluster_name
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: remove-cluster
+      description: Remove Cluster
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: service-mesh-clusters.removecluster
+      with:
+        cluster_name: tools.cluster_name
+      outputParameters:
+      - type: object
+        mapping: $.
