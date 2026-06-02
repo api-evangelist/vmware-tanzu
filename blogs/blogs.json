@@ -2,12 +2,20 @@
   "repo": "vmware-tanzu",
   "feeds": [
     {
-      "source": "https://tanzu.vmware.com/content/blog",
+      "source": "https://blogs.vmware.com/tanzu/feed/",
       "feed_url": "https://blogs.vmware.com/tanzu/feed/",
-      "title": "Tanzu",
-      "saved": 10
+      "title": "",
+      "saved": 0,
+      "method": "feed"
+    },
+    {
+      "source": "https://github.com/vmware-tanzu",
+      "feed_url": "https://github.com/vmware-tanzu",
+      "title": "",
+      "saved": 0,
+      "method": "none"
     }
   ],
-  "fetched": "2026-05-17T20:48:52Z",
-  "post_count": 10
+  "fetched": "2026-06-01T23:35:02Z",
+  "post_count": 11
 }
