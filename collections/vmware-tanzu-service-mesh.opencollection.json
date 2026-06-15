@@ -1,0 +1,310 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "VMware Tanzu Service Mesh API",
+    "version": "v1alpha1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Exchange API Token for Access Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://prod-2.nsxservicemesh.vmware.com/csp/gateway/am/api/auth/api-tokens/authorize",
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "refresh_token",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Exchange a long-lived CSP API token for a short-lived Bearer access token. The returned token must be used in the csp-auth-token header for all subsequent API calls."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Clusters",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Clusters",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prod-2.nsxservicemesh.vmware.com/v1alpha1/clusters",
+            "auth": {
+              "type": "apikey",
+              "key": "csp-auth-token",
+              "value": "{{csp-auth-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve all Kubernetes clusters onboarded to Tanzu Service Mesh."
+        },
+        {
+          "info": {
+            "name": "Get Cluster",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prod-2.nsxservicemesh.vmware.com/v1alpha1/clusters/:cluster_name",
+            "params": [
+              {
+                "name": "cluster_name",
+                "value": "",
+                "type": "path",
+                "description": "The cluster name as registered in Tanzu Service Mesh"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "csp-auth-token",
+              "value": "{{csp-auth-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve details for a specific onboarded cluster."
+        },
+        {
+          "info": {
+            "name": "Onboard Cluster",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://prod-2.nsxservicemesh.vmware.com/v1alpha1/clusters/:cluster_name",
+            "params": [
+              {
+                "name": "cluster_name",
+                "value": "",
+                "type": "path",
+                "description": "Unique name for the cluster in Tanzu Service Mesh"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "csp-auth-token",
+              "value": "{{csp-auth-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Onboard a Kubernetes cluster to Tanzu Service Mesh. This initiates the installation of the TSM agent on the cluster."
+        },
+        {
+          "info": {
+            "name": "Remove Cluster",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://prod-2.nsxservicemesh.vmware.com/v1alpha1/clusters/:cluster_name",
+            "params": [
+              {
+                "name": "cluster_name",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "csp-auth-token",
+              "value": "{{csp-auth-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Remove a cluster from Tanzu Service Mesh management."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Global Namespaces",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Global Namespaces",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prod-2.nsxservicemesh.vmware.com/v1alpha1/global-namespaces",
+            "auth": {
+              "type": "apikey",
+              "key": "csp-auth-token",
+              "value": "{{csp-auth-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List all global namespaces. A global namespace connects workloads across multiple clusters and clouds into one virtual unit for consistent traffic routing, connectivity, and security."
+        },
+        {
+          "info": {
+            "name": "Create Global Namespace",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://prod-2.nsxservicemesh.vmware.com/v1alpha1/global-namespaces",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "csp-auth-token",
+              "value": "{{csp-auth-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create a new global namespace spanning multiple clusters."
+        },
+        {
+          "info": {
+            "name": "Get Global Namespace",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prod-2.nsxservicemesh.vmware.com/v1alpha1/global-namespaces/:namespace_id",
+            "params": [
+              {
+                "name": "namespace_id",
+                "value": "",
+                "type": "path",
+                "description": "Global namespace identifier"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "csp-auth-token",
+              "value": "{{csp-auth-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve details for a specific global namespace."
+        },
+        {
+          "info": {
+            "name": "Update Global Namespace",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://prod-2.nsxservicemesh.vmware.com/v1alpha1/global-namespaces/:namespace_id",
+            "params": [
+              {
+                "name": "namespace_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "csp-auth-token",
+              "value": "{{csp-auth-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update the configuration of a global namespace."
+        },
+        {
+          "info": {
+            "name": "Delete Global Namespace",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://prod-2.nsxservicemesh.vmware.com/v1alpha1/global-namespaces/:namespace_id",
+            "params": [
+              {
+                "name": "namespace_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "csp-auth-token",
+              "value": "{{csp-auth-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete a global namespace."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Resource Groups",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Resource Groups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prod-2.nsxservicemesh.vmware.com/v1alpha1/resource-groups",
+            "auth": {
+              "type": "apikey",
+              "key": "csp-auth-token",
+              "value": "{{csp-auth-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List all resource groups. A resource group is a collection of cluster resources sharing specific characteristics, used to enforce policies and monitor performance."
+        },
+        {
+          "info": {
+            "name": "Create Resource Group",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://prod-2.nsxservicemesh.vmware.com/v1alpha1/resource-groups",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "csp-auth-token",
+              "value": "{{csp-auth-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create a new resource group."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
