@@ -74,7 +74,7 @@ common:
     url: https://tanzu.vmware.com/content/blog
   - type: Pricing
     url: https://tanzu.vmware.com/pricing
-  - type: SignUp
+  - type: Signup
     url: https://tanzu.vmware.com/try
   - type: Broadcom TechDocs
     url: https://techdocs.broadcom.com/us/en/vmware-tanzu.html
