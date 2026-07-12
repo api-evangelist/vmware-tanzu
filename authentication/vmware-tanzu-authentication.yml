@@ -1,0 +1,16 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/vmware-tanzu-service-mesh-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: CspAuthToken
+  type: apiKey
+  in: header
+  parameter: csp-auth-token
+  description: Short-lived Bearer token obtained by exchanging a CSP API token via POST /csp/gateway/am/api/auth/api-tokens/authorize.
+  sources:
+  - openapi/vmware-tanzu-service-mesh-openapi.yml

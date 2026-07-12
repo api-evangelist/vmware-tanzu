@@ -62,6 +62,10 @@ apis:
         url: >-
           https://raw.githubusercontent.com/api-evangelist/vmware-tanzu/refs/heads/main/crd/tanzukubernetescluster-crd.yaml
 common:
+  - type: DomainSecurity
+    url: security/vmware-tanzu-domain-security.yml
+  - type: Authentication
+    url: authentication/vmware-tanzu-authentication.yml
   - type: LinkedIn
     url: https://www.linkedin.com/company/vmware-tanzu
   - type: Website
