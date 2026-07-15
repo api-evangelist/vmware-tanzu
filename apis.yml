@@ -62,6 +62,8 @@ apis:
         url: >-
           https://raw.githubusercontent.com/api-evangelist/vmware-tanzu/refs/heads/main/crd/tanzukubernetescluster-crd.yaml
 common:
+  - type: AgenticAccess
+    url: agentic-access/vmware-tanzu-agentic-access.yml
   - type: DomainSecurity
     url: security/vmware-tanzu-domain-security.yml
   - type: Authentication
