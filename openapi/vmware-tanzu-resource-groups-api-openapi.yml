@@ -1,0 +1,130 @@
+openapi: 3.1.0
+info:
+  title: VMware Tanzu Service Mesh Authentication Resource Groups API
+  description: The VMware Tanzu Service Mesh REST API provides programmatic management of Kubernetes clusters onboarded to Tanzu Service Mesh, global namespaces spanning multiple clusters and clouds, resource groups for policy enforcement, and service groups. Authentication uses a CSP API token exchanged for a short-lived Bearer token passed via the csp-auth-token header.
+  version: v1alpha1
+  contact:
+    name: VMware Tanzu Support
+    url: https://tanzu.vmware.com/support
+  license:
+    name: Proprietary
+    url: https://tanzu.vmware.com/
+servers:
+- url: https://prod-2.nsxservicemesh.vmware.com
+  description: VMware Tanzu Service Mesh Production API
+tags:
+- name: Resource Groups
+  description: Manage resource groups for policy enforcement and monitoring
+paths:
+  /v1alpha1/resource-groups:
+    get:
+      operationId: listResourceGroups
+      summary: List Resource Groups
+      description: List all resource groups. A resource group is a collection of cluster resources sharing specific characteristics, used to enforce policies and monitor performance.
+      tags:
+      - Resource Groups
+      security:
+      - CspAuthToken: []
+      responses:
+        '200':
+          description: List of resource groups
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  resource_groups:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ResourceGroup'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createResourceGroup
+      summary: Create Resource Group
+      description: Create a new resource group.
+      tags:
+      - Resource Groups
+      security:
+      - CspAuthToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateResourceGroupRequest'
+      responses:
+        '200':
+          description: Resource group created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceGroup'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  responses:
+    Unauthorized:
+      description: Invalid or expired csp-auth-token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    ResourceGroup:
+      type: object
+      description: A resource group collecting cluster resources for policy and monitoring.
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+          description: Resource group name.
+        description:
+          type: string
+        resource_type:
+          type: string
+          description: Type of resources in this group.
+          enum:
+          - Namespace
+          - Service
+          - Pod
+        membership_criteria:
+          type: array
+          description: Criteria for resource membership.
+          items:
+            type: object
+    CreateResourceGroupRequest:
+      type: object
+      required:
+      - name
+      - resource_type
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        resource_type:
+          type: string
+        membership_criteria:
+          type: array
+          items:
+            type: object
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        details:
+          type: string
+  securitySchemes:
+    CspAuthToken:
+      type: apiKey
+      in: header
+      name: csp-auth-token
+      description: Short-lived Bearer token obtained by exchanging a CSP API token via POST /csp/gateway/am/api/auth/api-tokens/authorize.
+externalDocs:
+  description: Tanzu Service Mesh API Documentation
+  url: https://docs.vmware.com/en/VMware-Tanzu-Service-Mesh/services/api-programming-guide/GUID-6C5044B8-6950-42A6-87A5-3D88BEAE09DB.html
