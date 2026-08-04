@@ -223,7 +223,7 @@ components:
           $ref: '#/components/schemas/ClusterSettings'
     Topology:
       type: object
-      description: Cluster topology: control plane and worker nodes.
+      description: "Cluster topology: control plane and worker nodes."
       required:
         - controlPlane
       properties:

@@ -1,0 +1,22 @@
+{
+  "provider": "vmware-tanzu",
+  "sources": [
+    "vmware-tanzu-authentication-api-openapi.yml",
+    "vmware-tanzu-clusters-api-openapi.yml",
+    "vmware-tanzu-global-namespaces-api-openapi.yml",
+    "vmware-tanzu-resource-groups-api-openapi.yml"
+  ],
+  "outputs": [
+    "vmware-tanzu-authentication-api-openapi.yml",
+    "vmware-tanzu-clusters-api-openapi.yml",
+    "vmware-tanzu-global-namespaces-api-openapi.yml",
+    "vmware-tanzu-resource-groups-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": [
+    "vmware-tanzu-kubernetes-grid-openapi.yml: parse error ScannerError: mapping values are not allowed here"
+  ]
+}
