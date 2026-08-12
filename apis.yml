@@ -105,6 +105,15 @@ apis:
   - type: KubernetesCRD
     url: >-
       https://raw.githubusercontent.com/api-evangelist/vmware-tanzu/refs/heads/main/crd/tanzukubernetescluster-crd.yaml
+- aid: vmware-tanzu:vmware-tanzu-tanzu-kubernetes-clusters-api
+  name: VMware Tanzu Tanzu Kubernetes Clusters API
+  description: Create and manage TanzuKubernetesCluster resources
+  humanURL: https://docs.vmware.com/en/VMware-Tanzu-Service-Mesh/index.html
+  tags:
+  - Tanzu Kubernetes Clusters
+  properties:
+  - type: OpenAPI
+    url: openapi/vmware-tanzu-tanzu-kubernetes-clusters-api-openapi.yml
 common:
   - type: AgenticAccess
     url: agentic-access/vmware-tanzu-agentic-access.yml
