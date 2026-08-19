@@ -1,0 +1,250 @@
+{
+  "item": [
+    {
+      "id": "0a5f0f19-9b0f-49a3-ac23-633ff612b251",
+      "name": "Authentication",
+      "description": {
+        "content": "Exchange CSP API tokens for Bearer access tokens",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0381c596-c3f5-4c1b-b284-728797d4d0b9",
+          "name": "Exchange API Token for Access Token",
+          "request": {
+            "name": "Exchange API Token for Access Token",
+            "description": {
+              "content": "Exchange a long-lived CSP API token for a short-lived Bearer access token. The returned token must be used in the csp-auth-token header for all subsequent API calls.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "csp",
+                "gateway",
+                "am",
+                "api",
+                "auth",
+                "api-tokens",
+                "authorize"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "refresh_token",
+                  "value": "<string>",
+                  "description": "(Required) Your long-lived CSP API token."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "5d3b6f43-bf36-4a63-99c1-2884ce4df1b4",
+              "name": "Access token response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "csp",
+                    "gateway",
+                    "am",
+                    "api",
+                    "auth",
+                    "api-tokens",
+                    "authorize"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Your long-lived CSP API token.",
+                        "type": "text/plain"
+                      },
+                      "key": "refresh_token",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"access_token\": \"string\",\n  \"token_type\": \"string\",\n  \"expires_in\": 3361,\n  \"scope\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d8e0361f-317d-4a94-b6ac-7cdc10383876",
+              "name": "Invalid request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "csp",
+                    "gateway",
+                    "am",
+                    "api",
+                    "auth",
+                    "api-tokens",
+                    "authorize"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Your long-lived CSP API token.",
+                        "type": "text/plain"
+                      },
+                      "key": "refresh_token",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 2037,\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "81f46e03-b4dc-4c9f-b7ad-4fd7553939ea",
+              "name": "Invalid or expired csp-auth-token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "csp",
+                    "gateway",
+                    "am",
+                    "api",
+                    "auth",
+                    "api-tokens",
+                    "authorize"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Your long-lived CSP API token.",
+                        "type": "text/plain"
+                      },
+                      "key": "refresh_token",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 2037,\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://prod-2.nsxservicemesh.vmware.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "5e78621f-f1cc-435e-a166-babb35c1ce02",
+    "name": "VMware Tanzu Service Mesh Authentication API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The VMware Tanzu Service Mesh REST API provides programmatic management of Kubernetes clusters onboarded to Tanzu Service Mesh, global namespaces spanning multiple clusters and clouds, resource groups for policy enforcement, and service groups. Authentication uses a CSP API token exchanged for a short-lived Bearer token passed via the csp-auth-token header.\n\nContact Support:\n Name: VMware Tanzu Support",
+      "type": "text/plain"
+    }
+  }
+}

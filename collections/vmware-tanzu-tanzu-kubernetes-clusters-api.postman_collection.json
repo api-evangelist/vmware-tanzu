@@ -1,0 +1,1068 @@
+{
+  "item": [
+    {
+      "id": "ab68d62b-6611-4552-9dbb-132f58e99ad4",
+      "name": "Tanzu Kubernetes Clusters",
+      "description": {
+        "content": "Create and manage TanzuKubernetesCluster resources",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "cf4f2e94-4a53-42a9-8faa-073469067994",
+          "name": "List Tanzu Kubernetes Clusters",
+          "request": {
+            "name": "List Tanzu Kubernetes Clusters",
+            "description": {
+              "content": "List all TanzuKubernetesCluster resources in a vSphere namespace.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "apis",
+                "run.tanzu.vmware.com",
+                "v1alpha2",
+                "namespaces",
+                ":namespace",
+                "tanzukubernetesclusters"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "namespace",
+                  "description": "(Required) vSphere namespace containing the clusters"
+                },
+                {
+                  "description": "vSphere Supervisor cluster API server IP",
+                  "type": "any",
+                  "value": "{{supervisor-ip}}",
+                  "key": "supervisor-ip"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "c1747a25-1aeb-4e9f-9fe7-2ab592b8542a",
+              "name": "List of TanzuKubernetesCluster resources",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apis",
+                    "run.tanzu.vmware.com",
+                    "v1alpha2",
+                    "namespaces",
+                    ":namespace",
+                    "tanzukubernetesclusters"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "namespace",
+                      "description": "(Required) vSphere namespace containing the clusters"
+                    },
+                    {
+                      "description": "vSphere Supervisor cluster API server IP",
+                      "type": "any",
+                      "value": "{{supervisor-ip}}",
+                      "key": "supervisor-ip"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"apiVersion\": \"run.tanzu.vmware.com/v1alpha2\",\n  \"kind\": \"TanzuKubernetesClusterList\",\n  \"items\": [\n    {\n      \"apiVersion\": \"run.tanzu.vmware.com/v1alpha2\",\n      \"kind\": \"TanzuKubernetesCluster\",\n      \"metadata\": {\n        \"name\": \"my-workload-cluster\",\n        \"namespace\": \"string\",\n        \"labels\": {\n          \"key_0\": \"string\"\n        },\n        \"annotations\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\"\n        }\n      },\n      \"spec\": {\n        \"topology\": {\n          \"controlPlane\": {\n            \"count\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"vmClass\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"storageClass\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"tkr\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"nodePools\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"settings\": {\n          \"network\": {\n            \"serviceCidr\": \"10.96.0.0/12\",\n            \"podCidr\": \"192.168.0.0/16\",\n            \"cni\": {}\n          }\n        }\n      },\n      \"status\": {\n        \"phase\": \"deleting\",\n        \"apiEndpoint\": \"string\"\n      }\n    },\n    {\n      \"apiVersion\": \"run.tanzu.vmware.com/v1alpha2\",\n      \"kind\": \"TanzuKubernetesCluster\",\n      \"metadata\": {\n        \"name\": \"my-workload-cluster\",\n        \"namespace\": \"string\",\n        \"labels\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\"\n        },\n        \"annotations\": {\n          \"key_0\": \"string\"\n        }\n      },\n      \"spec\": {\n        \"topology\": {\n          \"controlPlane\": {\n            \"count\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"vmClass\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"storageClass\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"tkr\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"nodePools\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"settings\": {\n          \"network\": {\n            \"serviceCidr\": \"10.96.0.0/12\",\n            \"podCidr\": \"192.168.0.0/16\",\n            \"cni\": {}\n          }\n        }\n      },\n      \"status\": {\n        \"phase\": \"running\",\n        \"apiEndpoint\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8e402efe-45bc-45c5-abd3-f87321f64fab",
+              "name": "Missing or invalid Bearer token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apis",
+                    "run.tanzu.vmware.com",
+                    "v1alpha2",
+                    "namespaces",
+                    ":namespace",
+                    "tanzukubernetesclusters"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "namespace",
+                      "description": "(Required) vSphere namespace containing the clusters"
+                    },
+                    {
+                      "description": "vSphere Supervisor cluster API server IP",
+                      "type": "any",
+                      "value": "{{supervisor-ip}}",
+                      "key": "supervisor-ip"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 7122,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "145d166b-583b-4b22-b7d2-f926afe8564d",
+          "name": "Create Tanzu Kubernetes Cluster",
+          "request": {
+            "name": "Create Tanzu Kubernetes Cluster",
+            "description": {
+              "content": "Create a new TanzuKubernetesCluster resource in the specified vSphere namespace. The Supervisor reconciles this resource and provisions the Kubernetes cluster.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "apis",
+                "run.tanzu.vmware.com",
+                "v1alpha2",
+                "namespaces",
+                ":namespace",
+                "tanzukubernetesclusters"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "namespace",
+                  "description": "(Required) vSphere namespace to create the cluster in"
+                },
+                {
+                  "description": "vSphere Supervisor cluster API server IP",
+                  "type": "any",
+                  "value": "{{supervisor-ip}}",
+                  "key": "supervisor-ip"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"apiVersion\": \"<string>\",\n  \"kind\": \"TanzuKubernetesCluster\",\n  \"metadata\": {\n    \"name\": \"<string>\",\n    \"namespace\": \"<string>\",\n    \"labels\": {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\"\n    },\n    \"annotations\": {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\",\n      \"key_2\": \"<string>\",\n      \"key_3\": \"<string>\",\n      \"key_4\": \"<string>\"\n    }\n  },\n  \"spec\": {\n    \"topology\": {\n      \"controlPlane\": {\n        \"count\": \"<integer>\",\n        \"vmClass\": \"<string>\",\n        \"storageClass\": \"<string>\",\n        \"tkr\": {\n          \"reference\": {\n            \"name\": \"<string>\"\n          }\n        }\n      },\n      \"nodePools\": [\n        {\n          \"name\": \"<string>\",\n          \"count\": \"<integer>\",\n          \"vmClass\": \"<string>\",\n          \"storageClass\": \"<string>\",\n          \"tkr\": \"<object>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"count\": \"<integer>\",\n          \"vmClass\": \"<string>\",\n          \"storageClass\": \"<string>\",\n          \"tkr\": \"<object>\"\n        }\n      ]\n    },\n    \"settings\": {\n      \"network\": {\n        \"serviceCidr\": \"<string>\",\n        \"podCidr\": \"<string>\",\n        \"cni\": \"<object>\"\n      }\n    }\n  },\n  \"status\": {\n    \"phase\": \"<string>\",\n    \"conditions\": [\n      \"<object>\",\n      \"<object>\"\n    ],\n    \"apiEndpoint\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c142e2d7-44f9-4ab6-a319-9d63523fc1d5",
+              "name": "Cluster resource created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apis",
+                    "run.tanzu.vmware.com",
+                    "v1alpha2",
+                    "namespaces",
+                    ":namespace",
+                    "tanzukubernetesclusters"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "namespace",
+                      "description": "(Required) vSphere namespace to create the cluster in"
+                    },
+                    {
+                      "description": "vSphere Supervisor cluster API server IP",
+                      "type": "any",
+                      "value": "{{supervisor-ip}}",
+                      "key": "supervisor-ip"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"apiVersion\": \"run.tanzu.vmware.com/v1alpha2\",\n  \"kind\": \"TanzuKubernetesCluster\",\n  \"metadata\": {\n    \"name\": \"my-workload-cluster\",\n    \"namespace\": \"<string>\",\n    \"labels\": {\n      \"key_0\": \"<string>\"\n    },\n    \"annotations\": {\n      \"key_0\": \"<string>\"\n    }\n  },\n  \"spec\": {\n    \"topology\": {\n      \"controlPlane\": {\n        \"count\": \"<integer>\",\n        \"vmClass\": \"best-effort-small\",\n        \"storageClass\": \"wcpglobal-storage-profile\",\n        \"tkr\": {\n          \"reference\": {\n            \"name\": \"v1.29.0---vmware.1-tkg.1\"\n          }\n        }\n      },\n      \"nodePools\": [\n        {\n          \"name\": \"<string>\",\n          \"count\": \"<integer>\",\n          \"vmClass\": \"<string>\",\n          \"storageClass\": \"<string>\",\n          \"tkr\": \"<object>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"count\": \"<integer>\",\n          \"vmClass\": \"<string>\",\n          \"storageClass\": \"<string>\",\n          \"tkr\": \"<object>\"\n        }\n      ]\n    },\n    \"settings\": {\n      \"network\": {\n        \"serviceCidr\": \"10.96.0.0/12\",\n        \"podCidr\": \"192.168.0.0/16\",\n        \"cni\": \"<object>\"\n      }\n    }\n  },\n  \"status\": {\n    \"phase\": \"<string>\",\n    \"conditions\": [\n      \"<object>\",\n      \"<object>\"\n    ],\n    \"apiEndpoint\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"apiVersion\": \"run.tanzu.vmware.com/v1alpha2\",\n  \"kind\": \"TanzuKubernetesCluster\",\n  \"metadata\": {\n    \"name\": \"my-workload-cluster\",\n    \"namespace\": \"<string>\",\n    \"labels\": {\n      \"key_0\": \"<string>\"\n    },\n    \"annotations\": {\n      \"key_0\": \"<string>\"\n    }\n  },\n  \"spec\": {\n    \"topology\": {\n      \"controlPlane\": {\n        \"count\": \"<integer>\",\n        \"vmClass\": \"best-effort-small\",\n        \"storageClass\": \"wcpglobal-storage-profile\",\n        \"tkr\": {\n          \"reference\": {\n            \"name\": \"v1.29.0---vmware.1-tkg.1\"\n          }\n        }\n      },\n      \"nodePools\": [\n        {\n          \"name\": \"<string>\",\n          \"count\": \"<integer>\",\n          \"vmClass\": \"<string>\",\n          \"storageClass\": \"<string>\",\n          \"tkr\": \"<object>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"count\": \"<integer>\",\n          \"vmClass\": \"<string>\",\n          \"storageClass\": \"<string>\",\n          \"tkr\": \"<object>\"\n        }\n      ]\n    },\n    \"settings\": {\n      \"network\": {\n        \"serviceCidr\": \"10.96.0.0/12\",\n        \"podCidr\": \"192.168.0.0/16\",\n        \"cni\": \"<object>\"\n      }\n    }\n  },\n  \"status\": {\n    \"phase\": \"<string>\",\n    \"conditions\": [\n      \"<object>\",\n      \"<object>\"\n    ],\n    \"apiEndpoint\": \"<string>\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "38dcc6e2-7616-4b49-abd8-2ab0926c0c7f",
+              "name": "Invalid resource specification",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apis",
+                    "run.tanzu.vmware.com",
+                    "v1alpha2",
+                    "namespaces",
+                    ":namespace",
+                    "tanzukubernetesclusters"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "namespace",
+                      "description": "(Required) vSphere namespace to create the cluster in"
+                    },
+                    {
+                      "description": "vSphere Supervisor cluster API server IP",
+                      "type": "any",
+                      "value": "{{supervisor-ip}}",
+                      "key": "supervisor-ip"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"apiVersion\": \"run.tanzu.vmware.com/v1alpha2\",\n  \"kind\": \"TanzuKubernetesCluster\",\n  \"metadata\": {\n    \"name\": \"my-workload-cluster\",\n    \"namespace\": \"<string>\",\n    \"labels\": {\n      \"key_0\": \"<string>\"\n    },\n    \"annotations\": {\n      \"key_0\": \"<string>\"\n    }\n  },\n  \"spec\": {\n    \"topology\": {\n      \"controlPlane\": {\n        \"count\": \"<integer>\",\n        \"vmClass\": \"best-effort-small\",\n        \"storageClass\": \"wcpglobal-storage-profile\",\n        \"tkr\": {\n          \"reference\": {\n            \"name\": \"v1.29.0---vmware.1-tkg.1\"\n          }\n        }\n      },\n      \"nodePools\": [\n        {\n          \"name\": \"<string>\",\n          \"count\": \"<integer>\",\n          \"vmClass\": \"<string>\",\n          \"storageClass\": \"<string>\",\n          \"tkr\": \"<object>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"count\": \"<integer>\",\n          \"vmClass\": \"<string>\",\n          \"storageClass\": \"<string>\",\n          \"tkr\": \"<object>\"\n        }\n      ]\n    },\n    \"settings\": {\n      \"network\": {\n        \"serviceCidr\": \"10.96.0.0/12\",\n        \"podCidr\": \"192.168.0.0/16\",\n        \"cni\": \"<object>\"\n      }\n    }\n  },\n  \"status\": {\n    \"phase\": \"<string>\",\n    \"conditions\": [\n      \"<object>\",\n      \"<object>\"\n    ],\n    \"apiEndpoint\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 7122,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9b560af1-d4b1-4024-a63c-ca6d96271c89",
+              "name": "Missing or invalid Bearer token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apis",
+                    "run.tanzu.vmware.com",
+                    "v1alpha2",
+                    "namespaces",
+                    ":namespace",
+                    "tanzukubernetesclusters"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "namespace",
+                      "description": "(Required) vSphere namespace to create the cluster in"
+                    },
+                    {
+                      "description": "vSphere Supervisor cluster API server IP",
+                      "type": "any",
+                      "value": "{{supervisor-ip}}",
+                      "key": "supervisor-ip"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"apiVersion\": \"run.tanzu.vmware.com/v1alpha2\",\n  \"kind\": \"TanzuKubernetesCluster\",\n  \"metadata\": {\n    \"name\": \"my-workload-cluster\",\n    \"namespace\": \"<string>\",\n    \"labels\": {\n      \"key_0\": \"<string>\"\n    },\n    \"annotations\": {\n      \"key_0\": \"<string>\"\n    }\n  },\n  \"spec\": {\n    \"topology\": {\n      \"controlPlane\": {\n        \"count\": \"<integer>\",\n        \"vmClass\": \"best-effort-small\",\n        \"storageClass\": \"wcpglobal-storage-profile\",\n        \"tkr\": {\n          \"reference\": {\n            \"name\": \"v1.29.0---vmware.1-tkg.1\"\n          }\n        }\n      },\n      \"nodePools\": [\n        {\n          \"name\": \"<string>\",\n          \"count\": \"<integer>\",\n          \"vmClass\": \"<string>\",\n          \"storageClass\": \"<string>\",\n          \"tkr\": \"<object>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"count\": \"<integer>\",\n          \"vmClass\": \"<string>\",\n          \"storageClass\": \"<string>\",\n          \"tkr\": \"<object>\"\n        }\n      ]\n    },\n    \"settings\": {\n      \"network\": {\n        \"serviceCidr\": \"10.96.0.0/12\",\n        \"podCidr\": \"192.168.0.0/16\",\n        \"cni\": \"<object>\"\n      }\n    }\n  },\n  \"status\": {\n    \"phase\": \"<string>\",\n    \"conditions\": [\n      \"<object>\",\n      \"<object>\"\n    ],\n    \"apiEndpoint\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 7122,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "05001b4a-b2a3-4b46-842b-384a2d2f7ade",
+          "name": "Get Tanzu Kubernetes Cluster",
+          "request": {
+            "name": "Get Tanzu Kubernetes Cluster",
+            "description": {
+              "content": "Retrieve a specific TanzuKubernetesCluster resource and its status.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "apis",
+                "run.tanzu.vmware.com",
+                "v1alpha2",
+                "namespaces",
+                ":namespace",
+                "tanzukubernetesclusters",
+                ":cluster_name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "namespace",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "cluster_name",
+                  "description": "(Required) TanzuKubernetesCluster resource name"
+                },
+                {
+                  "description": "vSphere Supervisor cluster API server IP",
+                  "type": "any",
+                  "value": "{{supervisor-ip}}",
+                  "key": "supervisor-ip"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "3478f26a-9927-4944-a912-e2ed48413bf5",
+              "name": "TanzuKubernetesCluster resource",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apis",
+                    "run.tanzu.vmware.com",
+                    "v1alpha2",
+                    "namespaces",
+                    ":namespace",
+                    "tanzukubernetesclusters",
+                    ":cluster_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "namespace",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "cluster_name",
+                      "description": "(Required) TanzuKubernetesCluster resource name"
+                    },
+                    {
+                      "description": "vSphere Supervisor cluster API server IP",
+                      "type": "any",
+                      "value": "{{supervisor-ip}}",
+                      "key": "supervisor-ip"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"apiVersion\": \"run.tanzu.vmware.com/v1alpha2\",\n  \"kind\": \"TanzuKubernetesCluster\",\n  \"metadata\": {\n    \"name\": \"my-workload-cluster\",\n    \"namespace\": \"<string>\",\n    \"labels\": {\n      \"key_0\": \"<string>\"\n    },\n    \"annotations\": {\n      \"key_0\": \"<string>\"\n    }\n  },\n  \"spec\": {\n    \"topology\": {\n      \"controlPlane\": {\n        \"count\": \"<integer>\",\n        \"vmClass\": \"best-effort-small\",\n        \"storageClass\": \"wcpglobal-storage-profile\",\n        \"tkr\": {\n          \"reference\": {\n            \"name\": \"v1.29.0---vmware.1-tkg.1\"\n          }\n        }\n      },\n      \"nodePools\": [\n        {\n          \"name\": \"<string>\",\n          \"count\": \"<integer>\",\n          \"vmClass\": \"<string>\",\n          \"storageClass\": \"<string>\",\n          \"tkr\": \"<object>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"count\": \"<integer>\",\n          \"vmClass\": \"<string>\",\n          \"storageClass\": \"<string>\",\n          \"tkr\": \"<object>\"\n        }\n      ]\n    },\n    \"settings\": {\n      \"network\": {\n        \"serviceCidr\": \"10.96.0.0/12\",\n        \"podCidr\": \"192.168.0.0/16\",\n        \"cni\": \"<object>\"\n      }\n    }\n  },\n  \"status\": {\n    \"phase\": \"<string>\",\n    \"conditions\": [\n      \"<object>\",\n      \"<object>\"\n    ],\n    \"apiEndpoint\": \"<string>\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a09872c3-45db-4e5c-8aba-56cd32282661",
+              "name": "Missing or invalid Bearer token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apis",
+                    "run.tanzu.vmware.com",
+                    "v1alpha2",
+                    "namespaces",
+                    ":namespace",
+                    "tanzukubernetesclusters",
+                    ":cluster_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "namespace",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "cluster_name",
+                      "description": "(Required) TanzuKubernetesCluster resource name"
+                    },
+                    {
+                      "description": "vSphere Supervisor cluster API server IP",
+                      "type": "any",
+                      "value": "{{supervisor-ip}}",
+                      "key": "supervisor-ip"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 7122,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6347fe0f-424b-44f4-86a8-544c2dbedaf9",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apis",
+                    "run.tanzu.vmware.com",
+                    "v1alpha2",
+                    "namespaces",
+                    ":namespace",
+                    "tanzukubernetesclusters",
+                    ":cluster_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "namespace",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "cluster_name",
+                      "description": "(Required) TanzuKubernetesCluster resource name"
+                    },
+                    {
+                      "description": "vSphere Supervisor cluster API server IP",
+                      "type": "any",
+                      "value": "{{supervisor-ip}}",
+                      "key": "supervisor-ip"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 7122,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5dfca470-6506-45ea-8be7-b5fbc519cbfc",
+          "name": "Delete Tanzu Kubernetes Cluster",
+          "request": {
+            "name": "Delete Tanzu Kubernetes Cluster",
+            "description": {
+              "content": "Delete a TanzuKubernetesCluster resource, triggering cluster deletion.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "apis",
+                "run.tanzu.vmware.com",
+                "v1alpha2",
+                "namespaces",
+                ":namespace",
+                "tanzukubernetesclusters",
+                ":cluster_name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "namespace",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "cluster_name",
+                  "description": "(Required) "
+                },
+                {
+                  "description": "vSphere Supervisor cluster API server IP",
+                  "type": "any",
+                  "value": "{{supervisor-ip}}",
+                  "key": "supervisor-ip"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "1f22ba12-8769-44b4-a495-55751e4906c5",
+              "name": "Cluster deletion initiated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apis",
+                    "run.tanzu.vmware.com",
+                    "v1alpha2",
+                    "namespaces",
+                    ":namespace",
+                    "tanzukubernetesclusters",
+                    ":cluster_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "namespace",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "cluster_name",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": "vSphere Supervisor cluster API server IP",
+                      "type": "any",
+                      "value": "{{supervisor-ip}}",
+                      "key": "supervisor-ip"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f7b13836-45db-42d6-91b8-076cbb8a6804",
+              "name": "Missing or invalid Bearer token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apis",
+                    "run.tanzu.vmware.com",
+                    "v1alpha2",
+                    "namespaces",
+                    ":namespace",
+                    "tanzukubernetesclusters",
+                    ":cluster_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "namespace",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "cluster_name",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": "vSphere Supervisor cluster API server IP",
+                      "type": "any",
+                      "value": "{{supervisor-ip}}",
+                      "key": "supervisor-ip"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 7122,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "548c6812-0bb9-4dcc-a49d-af918ca9022e",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apis",
+                    "run.tanzu.vmware.com",
+                    "v1alpha2",
+                    "namespaces",
+                    ":namespace",
+                    "tanzukubernetesclusters",
+                    ":cluster_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "namespace",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "cluster_name",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": "vSphere Supervisor cluster API server IP",
+                      "type": "any",
+                      "value": "{{supervisor-ip}}",
+                      "key": "supervisor-ip"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 7122,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "vSphere Supervisor cluster API server IP",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "192.168.1.100",
+      "key": "supervisor-ip"
+    },
+    {
+      "type": "string",
+      "value": "https://{{supervisor-ip}}:6443",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "564f5fc2-1c05-403e-af61-1f56f38c4397",
+    "name": "VMware Tanzu Kubernetes Grid Tanzu Kubernetes Clusters API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Tanzu Kubernetes Grid (TKG) API is a Kubernetes-native declarative API using the TanzuKubernetesCluster CRD (v1alpha1/v1alpha2) to provision and manage Tanzu Kubernetes clusters on vSphere Supervisor. Clusters are created, updated, and deleted using standard kubectl against the Supervisor cluster's Kubernetes API server.\n\nContact Support:\n Name: VMware Tanzu Support",
+      "type": "text/plain"
+    }
+  }
+}

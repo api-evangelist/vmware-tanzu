@@ -1,0 +1,56 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "VMware Tanzu Service Mesh Authentication Resource Groups API",
+    "version": "v1alpha1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Resource Groups",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Resource Groups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prod-2.nsxservicemesh.vmware.com/v1alpha1/resource-groups",
+            "auth": {
+              "type": "apikey",
+              "key": "csp-auth-token",
+              "value": "{{csp-auth-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List all resource groups. A resource group is a collection of cluster resources sharing specific characteristics, used to enforce policies and monitor performance."
+        },
+        {
+          "info": {
+            "name": "Create Resource Group",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://prod-2.nsxservicemesh.vmware.com/v1alpha1/resource-groups",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "csp-auth-token",
+              "value": "{{csp-auth-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create a new resource group."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

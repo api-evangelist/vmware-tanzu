@@ -1,0 +1,113 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "VMware Tanzu Service Mesh Authentication Clusters API",
+    "version": "v1alpha1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Clusters",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Clusters",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prod-2.nsxservicemesh.vmware.com/v1alpha1/clusters",
+            "auth": {
+              "type": "apikey",
+              "key": "csp-auth-token",
+              "value": "{{csp-auth-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve all Kubernetes clusters onboarded to Tanzu Service Mesh."
+        },
+        {
+          "info": {
+            "name": "Get Cluster",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prod-2.nsxservicemesh.vmware.com/v1alpha1/clusters/:cluster_name",
+            "params": [
+              {
+                "name": "cluster_name",
+                "value": "",
+                "type": "path",
+                "description": "The cluster name as registered in Tanzu Service Mesh"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "csp-auth-token",
+              "value": "{{csp-auth-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve details for a specific onboarded cluster."
+        },
+        {
+          "info": {
+            "name": "Onboard Cluster",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://prod-2.nsxservicemesh.vmware.com/v1alpha1/clusters/:cluster_name",
+            "params": [
+              {
+                "name": "cluster_name",
+                "value": "",
+                "type": "path",
+                "description": "Unique name for the cluster in Tanzu Service Mesh"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "csp-auth-token",
+              "value": "{{csp-auth-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Onboard a Kubernetes cluster to Tanzu Service Mesh. This initiates the installation of the TSM agent on the cluster."
+        },
+        {
+          "info": {
+            "name": "Remove Cluster",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://prod-2.nsxservicemesh.vmware.com/v1alpha1/clusters/:cluster_name",
+            "params": [
+              {
+                "name": "cluster_name",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "csp-auth-token",
+              "value": "{{csp-auth-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Remove a cluster from Tanzu Service Mesh management."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

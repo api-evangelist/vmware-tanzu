@@ -1,0 +1,123 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "VMware Tanzu Kubernetes Grid Tanzu Kubernetes Clusters API",
+    "version": "v1alpha2"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Tanzu Kubernetes Clusters",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Tanzu Kubernetes Clusters",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{supervisor-ip}:6443/apis/run.tanzu.vmware.com/v1alpha2/namespaces/:namespace/tanzukubernetesclusters",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "path",
+                "description": "vSphere namespace containing the clusters"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List all TanzuKubernetesCluster resources in a vSphere namespace."
+        },
+        {
+          "info": {
+            "name": "Create Tanzu Kubernetes Cluster",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{supervisor-ip}:6443/apis/run.tanzu.vmware.com/v1alpha2/namespaces/:namespace/tanzukubernetesclusters",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "path",
+                "description": "vSphere namespace to create the cluster in"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a new TanzuKubernetesCluster resource in the specified vSphere namespace. The Supervisor reconciles this resource and provisions the Kubernetes cluster."
+        },
+        {
+          "info": {
+            "name": "Get Tanzu Kubernetes Cluster",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{supervisor-ip}:6443/apis/run.tanzu.vmware.com/v1alpha2/namespaces/:namespace/tanzukubernetesclusters/:cluster_name",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "cluster_name",
+                "value": "",
+                "type": "path",
+                "description": "TanzuKubernetesCluster resource name"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve a specific TanzuKubernetesCluster resource and its status."
+        },
+        {
+          "info": {
+            "name": "Delete Tanzu Kubernetes Cluster",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{supervisor-ip}:6443/apis/run.tanzu.vmware.com/v1alpha2/namespaces/:namespace/tanzukubernetesclusters/:cluster_name",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "cluster_name",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete a TanzuKubernetesCluster resource, triggering cluster deletion."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

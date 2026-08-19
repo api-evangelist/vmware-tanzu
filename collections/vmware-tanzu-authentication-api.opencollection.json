@@ -1,0 +1,38 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "VMware Tanzu Service Mesh Authentication API",
+    "version": "v1alpha1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Exchange API Token for Access Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://prod-2.nsxservicemesh.vmware.com/csp/gateway/am/api/auth/api-tokens/authorize",
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "refresh_token",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Exchange a long-lived CSP API token for a short-lived Bearer access token. The returned token must be used in the csp-auth-token header for all subsequent API calls."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,133 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "VMware Tanzu Service Mesh Authentication Global Namespaces API",
+    "version": "v1alpha1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Global Namespaces",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Global Namespaces",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prod-2.nsxservicemesh.vmware.com/v1alpha1/global-namespaces",
+            "auth": {
+              "type": "apikey",
+              "key": "csp-auth-token",
+              "value": "{{csp-auth-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List all global namespaces. A global namespace connects workloads across multiple clusters and clouds into one virtual unit for consistent traffic routing, connectivity, and security."
+        },
+        {
+          "info": {
+            "name": "Create Global Namespace",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://prod-2.nsxservicemesh.vmware.com/v1alpha1/global-namespaces",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "csp-auth-token",
+              "value": "{{csp-auth-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create a new global namespace spanning multiple clusters."
+        },
+        {
+          "info": {
+            "name": "Get Global Namespace",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prod-2.nsxservicemesh.vmware.com/v1alpha1/global-namespaces/:namespace_id",
+            "params": [
+              {
+                "name": "namespace_id",
+                "value": "",
+                "type": "path",
+                "description": "Global namespace identifier"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "csp-auth-token",
+              "value": "{{csp-auth-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve details for a specific global namespace."
+        },
+        {
+          "info": {
+            "name": "Update Global Namespace",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://prod-2.nsxservicemesh.vmware.com/v1alpha1/global-namespaces/:namespace_id",
+            "params": [
+              {
+                "name": "namespace_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "csp-auth-token",
+              "value": "{{csp-auth-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update the configuration of a global namespace."
+        },
+        {
+          "info": {
+            "name": "Delete Global Namespace",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://prod-2.nsxservicemesh.vmware.com/v1alpha1/global-namespaces/:namespace_id",
+            "params": [
+              {
+                "name": "namespace_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "csp-auth-token",
+              "value": "{{csp-auth-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete a global namespace."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
