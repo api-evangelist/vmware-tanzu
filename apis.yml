@@ -21,6 +21,14 @@ accessModel:
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/vmware-tanzu.png
 tags:
+  - Cloud-Native
+  - Containers
+  - Enterprise
+  - Kubernetes
+  - Multi-Cloud
+  - Service Mesh
+  - VMware
+tags_raw:
   - Cloud Native
   - Containers
   - Enterprise
@@ -56,6 +64,8 @@ apis:
   description: Manage Kubernetes clusters onboarded to Tanzu Service Mesh
   humanURL: https://docs.vmware.com/en/VMware-Tanzu-Service-Mesh/index.html
   tags:
+  - Cluster
+  tags_raw:
   - Clusters
   properties:
   - type: OpenAPI
