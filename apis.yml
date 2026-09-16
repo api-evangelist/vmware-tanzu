@@ -1,9 +1,10 @@
 aid: vmware-tanzu
 name: VMware Tanzu
-description: VMware Tanzu (now part of Broadcom) is a portfolio of products for modernizing applications and infrastructure
-  with a common approach to building, running, and managing Kubernetes across multi-cloud environments. Key APIs
-  include the Tanzu Service Mesh REST API for cluster and global namespace management, Kubernetes CRD-based APIs
-  for VM Operator, Projects Operator, and NSX Operator, and the Tanzu CLI plugin runtime.
+description: VMware Tanzu (now part of Broadcom) is a portfolio of products for modernizing applications
+  and infrastructure with a common approach to building, running, and managing Kubernetes across multi-cloud
+  environments. Key APIs include the Tanzu Service Mesh REST API for cluster and global namespace management,
+  Kubernetes CRD-based APIs for VM Operator, Projects Operator, and NSX Operator, and the Tanzu CLI plugin
+  runtime.
 type: Index
 deliveryModel:
   model: saas
@@ -50,7 +51,7 @@ tags_raw:
 - VMware
 url: https://raw.githubusercontent.com/api-evangelist/vmware-tanzu/refs/heads/main/apis.yml
 created: '2026-03-26'
-modified: '2026-08-21'
+modified: '2026-09-16'
 specificationVersion: '0.23'
 apis:
 - aid: vmware-tanzu:vmware-tanzu-authentication-api
@@ -116,7 +117,7 @@ apis:
   - type: KubernetesCRD
     url: https://raw.githubusercontent.com/api-evangelist/vmware-tanzu/refs/heads/main/crd/tanzukubernetescluster-crd.yaml
 - aid: vmware-tanzu:vmware-tanzu-tanzu-kubernetes-clusters-api
-  name: VMware Tanzu Tanzu Kubernetes Clusters API
+  name: VMware Tanzu Kubernetes Clusters API
   description: Create and manage TanzuKubernetesCluster resources
   humanURL: https://docs.vmware.com/en/VMware-Tanzu-Service-Mesh/index.html
   tags:
