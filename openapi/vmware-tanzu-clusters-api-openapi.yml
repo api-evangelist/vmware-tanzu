@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: VMware Tanzu Service Mesh Authentication Clusters API
+  title: VMware Tanzu Service Mesh Clusters API
   description: The VMware Tanzu Service Mesh REST API provides programmatic management of Kubernetes clusters onboarded to Tanzu Service Mesh, global namespaces spanning multiple clusters and clouds, resource groups for policy enforcement, and service groups. Authentication uses a CSP API token exchanged for a short-lived Bearer token passed via the csp-auth-token header.
   version: v1alpha1
   contact:
@@ -120,7 +120,50 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    Unauthorized:
+      description: Invalid or expired csp-auth-token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Invalid request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        details:
+          type: string
+    OnboardClusterRequest:
+      type: object
+      description: Request body to onboard a cluster to Tanzu Service Mesh.
+      properties:
+        display_name:
+          type: string
+          description: Human-readable name for the cluster.
+        description:
+          type: string
+          description: Description of the cluster.
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+          description: Key-value tags for organizing clusters.
     Cluster:
       type: object
       description: A Kubernetes cluster onboarded to Tanzu Service Mesh.
@@ -159,49 +202,6 @@ components:
         namespace_count:
           type: integer
           description: Number of namespaces in the cluster.
-    OnboardClusterRequest:
-      type: object
-      description: Request body to onboard a cluster to Tanzu Service Mesh.
-      properties:
-        display_name:
-          type: string
-          description: Human-readable name for the cluster.
-        description:
-          type: string
-          description: Description of the cluster.
-        tags:
-          type: object
-          additionalProperties:
-            type: string
-          description: Key-value tags for organizing clusters.
-    Error:
-      type: object
-      properties:
-        code:
-          type: integer
-        message:
-          type: string
-        details:
-          type: string
-  responses:
-    BadRequest:
-      description: Invalid request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Invalid or expired csp-auth-token
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     CspAuthToken:
       type: apiKey

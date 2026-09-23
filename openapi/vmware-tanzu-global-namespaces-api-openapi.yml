@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: VMware Tanzu Service Mesh Authentication Global Namespaces API
+  title: VMware Tanzu Service Mesh Global Namespaces API
   description: The VMware Tanzu Service Mesh REST API provides programmatic management of Kubernetes clusters onboarded to Tanzu Service Mesh, global namespaces spanning multiple clusters and clouds, resource groups for policy enforcement, and service groups. Authentication uses a CSP API token exchanged for a short-lived Bearer token passed via the csp-auth-token header.
   version: v1alpha1
   contact:
@@ -143,12 +143,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   responses:
-    BadRequest:
-      description: Invalid request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     Unauthorized:
       description: Invalid or expired csp-auth-token
       content:
@@ -157,6 +151,12 @@ components:
             $ref: '#/components/schemas/Error'
     NotFound:
       description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Invalid request
       content:
         application/json:
           schema:
@@ -201,6 +201,15 @@ components:
           - READY
           - PENDING
           - ERROR
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        details:
+          type: string
     CreateGlobalNamespaceRequest:
       type: object
       required:
@@ -221,15 +230,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ClusterConfig'
-    Error:
-      type: object
-      properties:
-        code:
-          type: integer
-        message:
-          type: string
-        details:
-          type: string
     ClusterConfig:
       type: object
       description: Configuration for a cluster participating in a global namespace.

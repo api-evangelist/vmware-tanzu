@@ -1,29 +1,30 @@
 {
   "provider": "vmware-tanzu",
   "sources": [
-    "vmware-tanzu-authentication-api-openapi.yml",
-    "vmware-tanzu-clusters-api-openapi.yml",
-    "vmware-tanzu-global-namespaces-api-openapi.yml",
-    "vmware-tanzu-resource-groups-api-openapi.yml",
-    "vmware-tanzu-tanzu-kubernetes-clusters-api-openapi.yml"
+    "_original/vmware-tanzu-kubernetes-grid-openapi.yml",
+    "_original/vmware-tanzu-service-mesh-openapi.yml"
   ],
   "outputs": [
+    "vmware-tanzu-tanzu-kubernetes-clusters-api-openapi.yml",
     "vmware-tanzu-authentication-api-openapi.yml",
     "vmware-tanzu-clusters-api-openapi.yml",
     "vmware-tanzu-global-namespaces-api-openapi.yml",
-    "vmware-tanzu-resource-groups-api-openapi.yml",
-    "vmware-tanzu-tanzu-kubernetes-clusters-api-openapi.yml"
+    "vmware-tanzu-resource-groups-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
   "notes": [
-    "vmware-tanzu-authentication-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "vmware-tanzu-clusters-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "vmware-tanzu-global-namespaces-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "vmware-tanzu-resource-groups-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "vmware-tanzu-tanzu-kubernetes-clusters-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "vmware-tanzu-kubernetes-grid-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "vmware-tanzu-service-mesh-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "vmware-tanzu-authentication-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vmware-tanzu-clusters-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vmware-tanzu-global-namespaces-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vmware-tanzu-resource-groups-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vmware-tanzu-tanzu-kubernetes-clusters-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

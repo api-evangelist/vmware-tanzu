@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: VMware Tanzu Service Mesh Authentication Resource Groups API
+  title: VMware Tanzu Service Mesh Resource Groups API
   description: The VMware Tanzu Service Mesh REST API provides programmatic management of Kubernetes clusters onboarded to Tanzu Service Mesh, global namespaces spanning multiple clusters and clouds, resource groups for policy enforcement, and service groups. Authentication uses a CSP API token exchanged for a short-lived Bearer token passed via the csp-auth-token header.
   version: v1alpha1
   contact:
@@ -63,16 +63,14 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    Unauthorized:
+      description: Invalid or expired csp-auth-token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    Error:
-      type: object
-      properties:
-        code:
-          type: integer
-        message:
-          type: string
-        details:
-          type: string
     ResourceGroup:
       type: object
       description: A resource group collecting cluster resources for policy and monitoring.
@@ -112,13 +110,15 @@ components:
           type: array
           items:
             type: object
-  responses:
-    Unauthorized:
-      description: Invalid or expired csp-auth-token
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        details:
+          type: string
   securitySchemes:
     CspAuthToken:
       type: apiKey
