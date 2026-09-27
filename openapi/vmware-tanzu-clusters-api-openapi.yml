@@ -127,43 +127,19 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     BadRequest:
       description: Invalid request
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    Error:
-      type: object
-      properties:
-        code:
-          type: integer
-        message:
-          type: string
-        details:
-          type: string
-    OnboardClusterRequest:
-      type: object
-      description: Request body to onboard a cluster to Tanzu Service Mesh.
-      properties:
-        display_name:
-          type: string
-          description: Human-readable name for the cluster.
-        description:
-          type: string
-          description: Description of the cluster.
-        tags:
-          type: object
-          additionalProperties:
-            type: string
-          description: Key-value tags for organizing clusters.
     Cluster:
       type: object
       description: A Kubernetes cluster onboarded to Tanzu Service Mesh.
@@ -202,6 +178,30 @@ components:
         namespace_count:
           type: integer
           description: Number of namespaces in the cluster.
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        details:
+          type: string
+    OnboardClusterRequest:
+      type: object
+      description: Request body to onboard a cluster to Tanzu Service Mesh.
+      properties:
+        display_name:
+          type: string
+          description: Human-readable name for the cluster.
+        description:
+          type: string
+          description: Description of the cluster.
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+          description: Key-value tags for organizing clusters.
   securitySchemes:
     CspAuthToken:
       type: apiKey

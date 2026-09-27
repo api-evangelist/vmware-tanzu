@@ -137,29 +137,19 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    TanzuKubernetesCluster:
+    Topology:
       type: object
-      description: A TanzuKubernetesCluster CRD resource representing a workload Kubernetes cluster.
+      description: 'Cluster topology: control plane and worker nodes.'
       required:
-      - apiVersion
-      - kind
-      - metadata
-      - spec
+      - controlPlane
       properties:
-        apiVersion:
-          type: string
-          description: API version of the resource.
-          example: run.tanzu.vmware.com/v1alpha2
-        kind:
-          type: string
-          description: Resource kind.
-          default: TanzuKubernetesCluster
-        metadata:
-          $ref: '#/components/schemas/ObjectMeta'
-        spec:
-          $ref: '#/components/schemas/TanzuKubernetesClusterSpec'
-        status:
-          $ref: '#/components/schemas/TanzuKubernetesClusterStatus'
+        controlPlane:
+          $ref: '#/components/schemas/NodeGroup'
+        nodePools:
+          type: array
+          description: Worker node pools.
+          items:
+            $ref: '#/components/schemas/NodePool'
     TanzuKubernetesClusterStatus:
       type: object
       description: Observed state of the TanzuKubernetesCluster.
@@ -181,19 +171,6 @@ components:
         apiEndpoint:
           type: string
           description: API server endpoint for the workload cluster.
-    Topology:
-      type: object
-      description: 'Cluster topology: control plane and worker nodes.'
-      required:
-      - controlPlane
-      properties:
-        controlPlane:
-          $ref: '#/components/schemas/NodeGroup'
-        nodePools:
-          type: array
-          description: Worker node pools.
-          items:
-            $ref: '#/components/schemas/NodePool'
     NodeGroup:
       type: object
       description: A group of identical Kubernetes nodes.
@@ -225,6 +202,23 @@ components:
                 name:
                   type: string
                   example: v1.29.0---vmware.1-tkg.1
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+    TanzuKubernetesClusterSpec:
+      type: object
+      description: Desired state specification for the TanzuKubernetesCluster.
+      required:
+      - topology
+      properties:
+        topology:
+          $ref: '#/components/schemas/Topology'
+        settings:
+          $ref: '#/components/schemas/ClusterSettings'
     ClusterSettings:
       type: object
       description: Optional cluster configuration settings.
@@ -244,13 +238,39 @@ components:
             cni:
               type: object
               description: CNI plugin configuration.
-    Error:
+    ObjectMeta:
       type: object
+      description: Kubernetes object metadata.
       properties:
-        code:
-          type: integer
-        message:
+        name:
           type: string
+          description: Cluster name.
+          example: my-workload-cluster
+        namespace:
+          type: string
+          description: vSphere namespace.
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+        annotations:
+          type: object
+          additionalProperties:
+            type: string
+    TanzuKubernetesClusterList:
+      type: object
+      description: List of TanzuKubernetesCluster resources.
+      properties:
+        apiVersion:
+          type: string
+          default: run.tanzu.vmware.com/v1alpha2
+        kind:
+          type: string
+          default: TanzuKubernetesClusterList
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/TanzuKubernetesCluster'
     NodePool:
       type: object
       description: A worker node pool definition.
@@ -272,49 +292,29 @@ components:
           type: string
         tkr:
           type: object
-    ObjectMeta:
+    TanzuKubernetesCluster:
       type: object
-      description: Kubernetes object metadata.
-      properties:
-        name:
-          type: string
-          description: Cluster name.
-          example: my-workload-cluster
-        namespace:
-          type: string
-          description: vSphere namespace.
-        labels:
-          type: object
-          additionalProperties:
-            type: string
-        annotations:
-          type: object
-          additionalProperties:
-            type: string
-    TanzuKubernetesClusterSpec:
-      type: object
-      description: Desired state specification for the TanzuKubernetesCluster.
+      description: A TanzuKubernetesCluster CRD resource representing a workload Kubernetes cluster.
       required:
-      - topology
-      properties:
-        topology:
-          $ref: '#/components/schemas/Topology'
-        settings:
-          $ref: '#/components/schemas/ClusterSettings'
-    TanzuKubernetesClusterList:
-      type: object
-      description: List of TanzuKubernetesCluster resources.
+      - apiVersion
+      - kind
+      - metadata
+      - spec
       properties:
         apiVersion:
           type: string
-          default: run.tanzu.vmware.com/v1alpha2
+          description: API version of the resource.
+          example: run.tanzu.vmware.com/v1alpha2
         kind:
           type: string
-          default: TanzuKubernetesClusterList
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/TanzuKubernetesCluster'
+          description: Resource kind.
+          default: TanzuKubernetesCluster
+        metadata:
+          $ref: '#/components/schemas/ObjectMeta'
+        spec:
+          $ref: '#/components/schemas/TanzuKubernetesClusterSpec'
+        status:
+          $ref: '#/components/schemas/TanzuKubernetesClusterStatus'
   responses:
     Unauthorized:
       description: Missing or invalid Bearer token
@@ -322,14 +322,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found
+    BadRequest:
+      description: Invalid resource specification
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: Invalid resource specification
+    NotFound:
+      description: Resource not found
       content:
         application/json:
           schema:
