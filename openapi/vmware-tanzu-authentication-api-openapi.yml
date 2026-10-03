@@ -48,6 +48,15 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        details:
+          type: string
     TokenResponse:
       type: object
       description: OAuth access token response from CSP token exchange.
@@ -62,15 +71,6 @@ components:
           type: integer
           description: Token lifetime in seconds.
         scope:
-          type: string
-    Error:
-      type: object
-      properties:
-        code:
-          type: integer
-        message:
-          type: string
-        details:
           type: string
   responses:
     Unauthorized:

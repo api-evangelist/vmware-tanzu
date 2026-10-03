@@ -80,6 +80,15 @@ components:
           type: array
           items:
             type: object
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        details:
+          type: string
     ResourceGroup:
       type: object
       description: A resource group collecting cluster resources for policy and monitoring.
@@ -103,15 +112,6 @@ components:
           description: Criteria for resource membership.
           items:
             type: object
-    Error:
-      type: object
-      properties:
-        code:
-          type: integer
-        message:
-          type: string
-        details:
-          type: string
   responses:
     Unauthorized:
       description: Invalid or expired csp-auth-token
