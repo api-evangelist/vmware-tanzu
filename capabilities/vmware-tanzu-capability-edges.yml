@@ -1,0 +1,44 @@
+slug: vmware-tanzu
+provider: VMware Tanzu
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 3
+edges:
+- tag: Clusters
+  spec_file: vmware-tanzu-clusters-api-openapi.yml
+  capability_id: BC-600.50
+  capability_id_l1: BC-600
+  capability_name: IT Infrastructure Management
+  confidence: 0.85
+  evidence: PUT /v1alpha1/clusters/{cluster_name}  onboardCluster  Onboard Cluster
+  reason: Operations onboard, list and remove Kubernetes clusters in Tanzu Service Mesh - management of
+    compute/cloud infrastructure estate, which is IT Infrastructure Management.
+- tag: Tanzu Kubernetes Clusters
+  spec_file: vmware-tanzu-tanzu-kubernetes-clusters-api-openapi.yml
+  capability_id: BC-600.50
+  capability_id_l1: BC-600
+  capability_name: IT Infrastructure Management
+  confidence: 0.85
+  evidence: '"createTanzuKubernetesCluster  Create Tanzu Kubernetes Cluster" ... "provision and manage
+    Tanzu Kubernetes clusters on vSphere Supervisor"'
+  reason: Operations provision, read and delete Kubernetes clusters (compute infrastructure) — IT infrastructure
+    management, not an industry business capability.
+- tag: Global Namespaces
+  spec_file: vmware-tanzu-global-namespaces-api-openapi.yml
+  capability_id: BC-600.50
+  capability_id_l1: BC-600
+  capability_name: IT Infrastructure Management
+  confidence: 0.75
+  evidence: global namespaces spanning multiple clusters and clouds
+  reason: CRUD over service-mesh global namespaces that span clusters and clouds is configuration of multi-cloud
+    network/compute infrastructure, best fitting IT Infrastructure Management. Some ambiguity versus IT
+    operations, hence 0.75.

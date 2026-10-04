@@ -126,6 +126,9 @@ apis:
   - type: OpenAPI
     url: openapi/vmware-tanzu-tanzu-kubernetes-clusters-api-openapi.yml
 common:
+- type: CapabilityMap
+  url: capabilities/vmware-tanzu-capability-edges.yml
+  name: VMware Tanzu Business Capability Map
 - type: ParentCompany
   url: https://apis.io/providers/vmware/
   name: VMware
