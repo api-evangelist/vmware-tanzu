@@ -63,32 +63,14 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    Unauthorized:
+      description: Invalid or expired csp-auth-token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    CreateResourceGroupRequest:
-      type: object
-      required:
-      - name
-      - resource_type
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        resource_type:
-          type: string
-        membership_criteria:
-          type: array
-          items:
-            type: object
-    Error:
-      type: object
-      properties:
-        code:
-          type: integer
-        message:
-          type: string
-        details:
-          type: string
     ResourceGroup:
       type: object
       description: A resource group collecting cluster resources for policy and monitoring.
@@ -112,13 +94,31 @@ components:
           description: Criteria for resource membership.
           items:
             type: object
-  responses:
-    Unauthorized:
-      description: Invalid or expired csp-auth-token
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        details:
+          type: string
+    CreateResourceGroupRequest:
+      type: object
+      required:
+      - name
+      - resource_type
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        resource_type:
+          type: string
+        membership_criteria:
+          type: array
+          items:
+            type: object
   securitySchemes:
     CspAuthToken:
       type: apiKey

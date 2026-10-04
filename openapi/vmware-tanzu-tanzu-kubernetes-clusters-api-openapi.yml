@@ -136,138 +136,28 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    Unauthorized:
-      description: Missing or invalid Bearer token
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: Invalid resource specification
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    TanzuKubernetesCluster:
+    NodePool:
       type: object
-      description: A TanzuKubernetesCluster CRD resource representing a workload Kubernetes cluster.
+      description: A worker node pool definition.
       required:
-      - apiVersion
-      - kind
-      - metadata
-      - spec
-      properties:
-        apiVersion:
-          type: string
-          description: API version of the resource.
-          example: run.tanzu.vmware.com/v1alpha2
-        kind:
-          type: string
-          description: Resource kind.
-          default: TanzuKubernetesCluster
-        metadata:
-          $ref: '#/components/schemas/ObjectMeta'
-        spec:
-          $ref: '#/components/schemas/TanzuKubernetesClusterSpec'
-        status:
-          $ref: '#/components/schemas/TanzuKubernetesClusterStatus'
-    TanzuKubernetesClusterStatus:
-      type: object
-      description: Observed state of the TanzuKubernetesCluster.
-      properties:
-        phase:
-          type: string
-          description: Cluster lifecycle phase.
-          enum:
-          - creating
-          - running
-          - updating
-          - deleting
-          - error
-        conditions:
-          type: array
-          description: Kubernetes conditions describing cluster health.
-          items:
-            type: object
-        apiEndpoint:
-          type: string
-          description: API server endpoint for the workload cluster.
-    TanzuKubernetesClusterSpec:
-      type: object
-      description: Desired state specification for the TanzuKubernetesCluster.
-      required:
-      - topology
-      properties:
-        topology:
-          $ref: '#/components/schemas/Topology'
-        settings:
-          $ref: '#/components/schemas/ClusterSettings'
-    ObjectMeta:
-      type: object
-      description: Kubernetes object metadata.
+      - name
+      - count
+      - vmClass
+      - storageClass
+      - tkr
       properties:
         name:
           type: string
-          description: Cluster name.
-          example: my-workload-cluster
-        namespace:
-          type: string
-          description: vSphere namespace.
-        labels:
-          type: object
-          additionalProperties:
-            type: string
-        annotations:
-          type: object
-          additionalProperties:
-            type: string
-    Error:
-      type: object
-      properties:
-        code:
+          description: Node pool name.
+        count:
           type: integer
-        message:
+        vmClass:
           type: string
-    ClusterSettings:
-      type: object
-      description: Optional cluster configuration settings.
-      properties:
-        network:
+        storageClass:
+          type: string
+        tkr:
           type: object
-          description: Network configuration for the cluster.
-          properties:
-            serviceCidr:
-              type: string
-              description: CIDR for Kubernetes services.
-              example: 10.96.0.0/12
-            podCidr:
-              type: string
-              description: CIDR for pod networking.
-              example: 192.168.0.0/16
-            cni:
-              type: object
-              description: CNI plugin configuration.
-    Topology:
-      type: object
-      description: 'Cluster topology: control plane and worker nodes.'
-      required:
-      - controlPlane
-      properties:
-        controlPlane:
-          $ref: '#/components/schemas/NodeGroup'
-        nodePools:
-          type: array
-          description: Worker node pools.
-          items:
-            $ref: '#/components/schemas/NodePool'
     NodeGroup:
       type: object
       description: A group of identical Kubernetes nodes.
@@ -299,6 +189,78 @@ components:
                 name:
                   type: string
                   example: v1.29.0---vmware.1-tkg.1
+    TanzuKubernetesCluster:
+      type: object
+      description: A TanzuKubernetesCluster CRD resource representing a workload Kubernetes cluster.
+      required:
+      - apiVersion
+      - kind
+      - metadata
+      - spec
+      properties:
+        apiVersion:
+          type: string
+          description: API version of the resource.
+          example: run.tanzu.vmware.com/v1alpha2
+        kind:
+          type: string
+          description: Resource kind.
+          default: TanzuKubernetesCluster
+        metadata:
+          $ref: '#/components/schemas/ObjectMeta'
+        spec:
+          $ref: '#/components/schemas/TanzuKubernetesClusterSpec'
+        status:
+          $ref: '#/components/schemas/TanzuKubernetesClusterStatus'
+    TanzuKubernetesClusterSpec:
+      type: object
+      description: Desired state specification for the TanzuKubernetesCluster.
+      required:
+      - topology
+      properties:
+        topology:
+          $ref: '#/components/schemas/Topology'
+        settings:
+          $ref: '#/components/schemas/ClusterSettings'
+    Topology:
+      type: object
+      description: 'Cluster topology: control plane and worker nodes.'
+      required:
+      - controlPlane
+      properties:
+        controlPlane:
+          $ref: '#/components/schemas/NodeGroup'
+        nodePools:
+          type: array
+          description: Worker node pools.
+          items:
+            $ref: '#/components/schemas/NodePool'
+    ObjectMeta:
+      type: object
+      description: Kubernetes object metadata.
+      properties:
+        name:
+          type: string
+          description: Cluster name.
+          example: my-workload-cluster
+        namespace:
+          type: string
+          description: vSphere namespace.
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+        annotations:
+          type: object
+          additionalProperties:
+            type: string
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
     TanzuKubernetesClusterList:
       type: object
       description: List of TanzuKubernetesCluster resources.
@@ -313,27 +275,65 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/TanzuKubernetesCluster'
-    NodePool:
+    ClusterSettings:
       type: object
-      description: A worker node pool definition.
-      required:
-      - name
-      - count
-      - vmClass
-      - storageClass
-      - tkr
+      description: Optional cluster configuration settings.
       properties:
-        name:
-          type: string
-          description: Node pool name.
-        count:
-          type: integer
-        vmClass:
-          type: string
-        storageClass:
-          type: string
-        tkr:
+        network:
           type: object
+          description: Network configuration for the cluster.
+          properties:
+            serviceCidr:
+              type: string
+              description: CIDR for Kubernetes services.
+              example: 10.96.0.0/12
+            podCidr:
+              type: string
+              description: CIDR for pod networking.
+              example: 192.168.0.0/16
+            cni:
+              type: object
+              description: CNI plugin configuration.
+    TanzuKubernetesClusterStatus:
+      type: object
+      description: Observed state of the TanzuKubernetesCluster.
+      properties:
+        phase:
+          type: string
+          description: Cluster lifecycle phase.
+          enum:
+          - creating
+          - running
+          - updating
+          - deleting
+          - error
+        conditions:
+          type: array
+          description: Kubernetes conditions describing cluster health.
+          items:
+            type: object
+        apiEndpoint:
+          type: string
+          description: API server endpoint for the workload cluster.
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Invalid resource specification
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid Bearer token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     BearerAuth:
       type: http
