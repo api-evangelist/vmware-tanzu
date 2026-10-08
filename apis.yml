@@ -126,6 +126,12 @@ apis:
   - type: OpenAPI
     url: openapi/vmware-tanzu-tanzu-kubernetes-clusters-api-openapi.yml
 common:
+- type: Plans
+  url: plans/vmware-tanzu-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/vmware-tanzu-rate-limits.yml
+- type: FinOps
+  url: finops/vmware-tanzu-finops.yml
 - type: CapabilityMap
   url: capabilities/vmware-tanzu-capability-edges.yml
   name: VMware Tanzu Business Capability Map
