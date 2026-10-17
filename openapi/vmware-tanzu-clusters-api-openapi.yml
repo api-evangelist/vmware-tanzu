@@ -121,6 +121,15 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        details:
+          type: string
     Cluster:
       type: object
       description: A Kubernetes cluster onboarded to Tanzu Service Mesh.
@@ -159,15 +168,6 @@ components:
         namespace_count:
           type: integer
           description: Number of namespaces in the cluster.
-    Error:
-      type: object
-      properties:
-        code:
-          type: integer
-        message:
-          type: string
-        details:
-          type: string
     OnboardClusterRequest:
       type: object
       description: Request body to onboard a cluster to Tanzu Service Mesh.
@@ -184,12 +184,6 @@ components:
             type: string
           description: Key-value tags for organizing clusters.
   responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     Unauthorized:
       description: Invalid or expired csp-auth-token
       content:
@@ -198,6 +192,12 @@ components:
             $ref: '#/components/schemas/Error'
     BadRequest:
       description: Invalid request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
       content:
         application/json:
           schema:

@@ -71,29 +71,6 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
   schemas:
-    ResourceGroup:
-      type: object
-      description: A resource group collecting cluster resources for policy and monitoring.
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-          description: Resource group name.
-        description:
-          type: string
-        resource_type:
-          type: string
-          description: Type of resources in this group.
-          enum:
-          - Namespace
-          - Service
-          - Pod
-        membership_criteria:
-          type: array
-          description: Criteria for resource membership.
-          items:
-            type: object
     Error:
       type: object
       properties:
@@ -117,6 +94,29 @@ components:
           type: string
         membership_criteria:
           type: array
+          items:
+            type: object
+    ResourceGroup:
+      type: object
+      description: A resource group collecting cluster resources for policy and monitoring.
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+          description: Resource group name.
+        description:
+          type: string
+        resource_type:
+          type: string
+          description: Type of resources in this group.
+          enum:
+          - Namespace
+          - Service
+          - Pod
+        membership_criteria:
+          type: array
+          description: Criteria for resource membership.
           items:
             type: object
   securitySchemes:

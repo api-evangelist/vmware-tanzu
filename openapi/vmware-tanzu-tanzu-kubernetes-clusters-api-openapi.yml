@@ -137,27 +137,47 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    NodePool:
+    Topology:
       type: object
-      description: A worker node pool definition.
+      description: 'Cluster topology: control plane and worker nodes.'
       required:
-      - name
-      - count
-      - vmClass
-      - storageClass
-      - tkr
+      - controlPlane
       properties:
-        name:
+        controlPlane:
+          $ref: '#/components/schemas/NodeGroup'
+        nodePools:
+          type: array
+          description: Worker node pools.
+          items:
+            $ref: '#/components/schemas/NodePool'
+    TanzuKubernetesClusterStatus:
+      type: object
+      description: Observed state of the TanzuKubernetesCluster.
+      properties:
+        phase:
           type: string
-          description: Node pool name.
-        count:
+          description: Cluster lifecycle phase.
+          enum:
+          - creating
+          - running
+          - updating
+          - deleting
+          - error
+        conditions:
+          type: array
+          description: Kubernetes conditions describing cluster health.
+          items:
+            type: object
+        apiEndpoint:
+          type: string
+          description: API server endpoint for the workload cluster.
+    Error:
+      type: object
+      properties:
+        code:
           type: integer
-        vmClass:
+        message:
           type: string
-        storageClass:
-          type: string
-        tkr:
-          type: object
     NodeGroup:
       type: object
       description: A group of identical Kubernetes nodes.
@@ -189,29 +209,27 @@ components:
                 name:
                   type: string
                   example: v1.29.0---vmware.1-tkg.1
-    TanzuKubernetesCluster:
+    NodePool:
       type: object
-      description: A TanzuKubernetesCluster CRD resource representing a workload Kubernetes cluster.
+      description: A worker node pool definition.
       required:
-      - apiVersion
-      - kind
-      - metadata
-      - spec
+      - name
+      - count
+      - vmClass
+      - storageClass
+      - tkr
       properties:
-        apiVersion:
+        name:
           type: string
-          description: API version of the resource.
-          example: run.tanzu.vmware.com/v1alpha2
-        kind:
+          description: Node pool name.
+        count:
+          type: integer
+        vmClass:
           type: string
-          description: Resource kind.
-          default: TanzuKubernetesCluster
-        metadata:
-          $ref: '#/components/schemas/ObjectMeta'
-        spec:
-          $ref: '#/components/schemas/TanzuKubernetesClusterSpec'
-        status:
-          $ref: '#/components/schemas/TanzuKubernetesClusterStatus'
+        storageClass:
+          type: string
+        tkr:
+          type: object
     TanzuKubernetesClusterSpec:
       type: object
       description: Desired state specification for the TanzuKubernetesCluster.
@@ -222,19 +240,6 @@ components:
           $ref: '#/components/schemas/Topology'
         settings:
           $ref: '#/components/schemas/ClusterSettings'
-    Topology:
-      type: object
-      description: 'Cluster topology: control plane and worker nodes.'
-      required:
-      - controlPlane
-      properties:
-        controlPlane:
-          $ref: '#/components/schemas/NodeGroup'
-        nodePools:
-          type: array
-          description: Worker node pools.
-          items:
-            $ref: '#/components/schemas/NodePool'
     ObjectMeta:
       type: object
       description: Kubernetes object metadata.
@@ -254,13 +259,6 @@ components:
           type: object
           additionalProperties:
             type: string
-    Error:
-      type: object
-      properties:
-        code:
-          type: integer
-        message:
-          type: string
     TanzuKubernetesClusterList:
       type: object
       description: List of TanzuKubernetesCluster resources.
@@ -294,30 +292,32 @@ components:
             cni:
               type: object
               description: CNI plugin configuration.
-    TanzuKubernetesClusterStatus:
+    TanzuKubernetesCluster:
       type: object
-      description: Observed state of the TanzuKubernetesCluster.
+      description: A TanzuKubernetesCluster CRD resource representing a workload Kubernetes cluster.
+      required:
+      - apiVersion
+      - kind
+      - metadata
+      - spec
       properties:
-        phase:
+        apiVersion:
           type: string
-          description: Cluster lifecycle phase.
-          enum:
-          - creating
-          - running
-          - updating
-          - deleting
-          - error
-        conditions:
-          type: array
-          description: Kubernetes conditions describing cluster health.
-          items:
-            type: object
-        apiEndpoint:
+          description: API version of the resource.
+          example: run.tanzu.vmware.com/v1alpha2
+        kind:
           type: string
-          description: API server endpoint for the workload cluster.
+          description: Resource kind.
+          default: TanzuKubernetesCluster
+        metadata:
+          $ref: '#/components/schemas/ObjectMeta'
+        spec:
+          $ref: '#/components/schemas/TanzuKubernetesClusterSpec'
+        status:
+          $ref: '#/components/schemas/TanzuKubernetesClusterStatus'
   responses:
-    NotFound:
-      description: Resource not found
+    Unauthorized:
+      description: Missing or invalid Bearer token
       content:
         application/json:
           schema:
@@ -328,8 +328,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid Bearer token
+    NotFound:
+      description: Resource not found
       content:
         application/json:
           schema:

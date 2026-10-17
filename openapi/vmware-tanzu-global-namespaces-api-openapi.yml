@@ -142,26 +142,16 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Invalid or expired csp-auth-token
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: Invalid request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        details:
+          type: string
     GlobalNamespace:
       type: object
       description: A global namespace connecting workloads across multiple clusters.
@@ -201,27 +191,6 @@ components:
           - READY
           - PENDING
           - ERROR
-    ClusterConfig:
-      type: object
-      description: Configuration for a cluster participating in a global namespace.
-      properties:
-        cluster_name:
-          type: string
-          description: Name of the cluster.
-        namespaces:
-          type: array
-          items:
-            type: string
-          description: Kubernetes namespaces from this cluster to include.
-    Error:
-      type: object
-      properties:
-        code:
-          type: integer
-        message:
-          type: string
-        details:
-          type: string
     CreateGlobalNamespaceRequest:
       type: object
       required:
@@ -242,6 +211,37 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ClusterConfig'
+    ClusterConfig:
+      type: object
+      description: Configuration for a cluster participating in a global namespace.
+      properties:
+        cluster_name:
+          type: string
+          description: Name of the cluster.
+        namespaces:
+          type: array
+          items:
+            type: string
+          description: Kubernetes namespaces from this cluster to include.
+  responses:
+    Unauthorized:
+      description: Invalid or expired csp-auth-token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Invalid request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     CspAuthToken:
       type: apiKey
