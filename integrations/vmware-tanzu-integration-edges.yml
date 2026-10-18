@@ -1,6 +1,7 @@
 generated: '2026-10-14'
 method: searched
 checked:
+- https://github.com/istio/istio.io
 - https://marketplace.visualstudio.com/vscode
 marketplace_apps: []
 edges:
@@ -25,5 +26,31 @@ edges:
   - Verified domain
   detected_by: sweep-devtools.py
   detected: '2026-10-14'
+- partner_name: Istio (ecosystem)
+  partner: istio
+  partner_match: register
+  type: register
+  direction: partner-built
+  category: Service mesh ecosystem
+  evidence: https://github.com/istio/istio.io/blob/a03df1cfd4fda35a88a37b7a6486141c1c153bea/data/companies.yml
+  channel: standard-directory
+  relationship: standard-participant
+  contract_reference:
+    register: Istio ecosystem (github.com/istio/istio.io data/companies.yml @a03df1cfd4)
+    spec_file: null
+    standard: Istio service mesh
+    role: istio-provider
+    registered_name: VMware Tanzu Service Mesh
+    registered_names:
+    - VMware Tanzu Service Mesh
+    website: https://tanzu.vmware.com/service-mesh
+    matched_domain: vmware.com
+    matched_by: domain
+    identity_source: register-url
+    signal_note: 'participation only: the ecosystem lists are context, never read'
+    detected_by: sweep-api-management.py
+    detected: '2026-10-18'
+  detected_by: sweep-api-management.py
+  first_seen: '2026-10-18'
 source:
 - https://marketplace.visualstudio.com/vscode
