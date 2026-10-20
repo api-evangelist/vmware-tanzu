@@ -22,11 +22,11 @@
   category: Service mesh ecosystem
   type: register
   channel: standard-directory
-  evidence: https://github.com/istio/istio.io/blob/a03df1cfd4fda35a88a37b7a6486141c1c153bea/data/companies.yml
+  evidence: https://github.com/istio/istio.io/blob/3a0c0f3e81c007d7b6e55d02418877bb6d1b4022/data/companies.yml
   source: edge
   relationship: standard-participant
   contract_reference:
-    register: Istio ecosystem (github.com/istio/istio.io data/companies.yml @a03df1cfd4)
+    register: Istio ecosystem (github.com/istio/istio.io data/companies.yml @3a0c0f3e81)
     spec_file: null
     standard: Istio service mesh
     role: istio-provider
@@ -39,6 +39,6 @@
     identity_source: register-url
     signal_note: 'participation only: the ecosystem lists are context, never read'
     detected_by: sweep-api-management.py
-    detected: '2026-10-18'
+    detected: '2026-10-19'
   status: not-a-workflow
   arazzo: null
