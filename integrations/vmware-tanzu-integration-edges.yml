@@ -3,6 +3,7 @@ method: searched
 checked:
 - https://github.com/istio/istio.io
 - https://marketplace.visualstudio.com/vscode
+- docker-hub/integrations/docker-hub-integration-edges.yml
 marketplace_apps: []
 edges:
 - partner_name: Visual Studio Code Marketplace
@@ -52,5 +53,38 @@ edges:
     detected: '2026-10-19'
   detected_by: sweep-api-management.py
   first_seen: '2026-10-18'
+- partner_name: Docker Hub (docker-verified-publisher)
+  partner: docker-hub
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: docker-verified-publisher
+  evidence: https://hub.docker.com/u/vmware
+  mirror_of: docker-hub/integrations/docker-hub-integration-edges.yml
+  apps:
+  - vmware/powerclicore
+  - vmware/kube-fluentd-operator
+  - vmware/log-intelligence-fluentd
+  - vmware/build-photon
+  - vmware/node
+  - vmware/stig-compliance
+  - vmware/photon-lightwave
+  - vmware/photon-service-builder
+  - vmware/photon-controller-ui
+  - vmware/photon-controller-seed
+  - vmware/photon-kube-conf
+  - vmware/photon-kube-config
+  - vmware/maven-xenon
+  - vmware/nginx
+  - vmware/clair-db
+  listing_count: 1
+  detected: '2026-10-20'
+  detected_by: mirror-platform-listings.py
+  category: Docker Verified Publisher
+  badges:
+  - Docker Verified Publisher
 source:
 - https://marketplace.visualstudio.com/vscode
